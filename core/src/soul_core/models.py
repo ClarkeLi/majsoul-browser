@@ -77,7 +77,7 @@ def verify_checkpoint(path: str) -> dict:
 
 def _verify_subprocess(path: Path) -> dict:
     p = subprocess.run([*self_command("soul_core.models", "models"), "_verify", str(path)],
-                       capture_output=True, text=True, timeout=120)
+                       capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120)
     last = (p.stdout.strip().splitlines() or ["{}"])[-1]
     try:
         r = json.loads(last)
@@ -133,6 +133,10 @@ def import_model(src: str | Path, root: str | Path, progress=lambda step, ok=Tru
 
 
 def main(argv=None) -> int:
+    # Windows 控制台默认 cp1252/gbk，输出中文错误信息会 UnicodeEncodeError；统一 UTF-8
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     a = sub.add_parser("import"); a.add_argument("path"); a.add_argument("--root", required=True)

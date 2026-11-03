@@ -1,5 +1,5 @@
 import { mkdirSync, writeFileSync, rmSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { join as nativeJoin, posix, win32 } from 'node:path'
 
 export const DATA_DIR_NAME = 'MajsoulBrowserData'
 export const SUBDIRS = ['profile', 'models', 'records', 'logs', 'tmp', 'crash'] as const
@@ -25,6 +25,8 @@ export interface ResolveInput {
 
 /** 解析优先级：环境变量 → 开发模式 `.data/` → macOS `.app` 所在目录 → Linux AppImage 文件旁 → Windows/Linux 可执行文件同级。 */
 export function resolveDataRoot(i: ResolveInput): string {
+  // 按目标平台选路径语法（而非运行测试的机器），这样 Windows 路径在任何系统上都按 Windows 规则拼
+  const { dirname, join } = i.platform === 'win32' ? win32 : posix
   if (i.env.MAJSOUL_BROWSER_DATA_DIR) return i.env.MAJSOUL_BROWSER_DATA_DIR
   if (!i.isPackaged) return join(i.repoRoot, '.data')
   if (i.platform === 'darwin') {
@@ -43,8 +45,8 @@ export function resolveDataRoot(i: ResolveInput): string {
 /** 创建目录并探测可写；不可写时抛出带路径和办法的错误，**不静默回退**。 */
 export function ensureDataRoot(root: string): void {
   try {
-    for (const d of SUBDIRS) mkdirSync(join(root, d), { recursive: true })
-    const probe = join(root, 'tmp', '.write-probe')
+    for (const d of SUBDIRS) mkdirSync(nativeJoin(root, d), { recursive: true })
+    const probe = nativeJoin(root, 'tmp', '.write-probe')
     writeFileSync(probe, 'ok')
     rmSync(probe)
   } catch (e) {

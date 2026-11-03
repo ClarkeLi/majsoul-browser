@@ -12,7 +12,7 @@ DEV = ROOT / "AI/models/mortal_s42.pth"
 
 
 def cli(*args):
-    p = subprocess.run([sys.executable, "-m", "soul_core.models", *args], capture_output=True, text=True, timeout=180)
+    p = subprocess.run([sys.executable, "-m", "soul_core.models", *args], capture_output=True, text=True, encoding="utf-8", timeout=180)
     return p.returncode, [json.loads(l) for l in p.stdout.splitlines() if l.strip()]
 
 
