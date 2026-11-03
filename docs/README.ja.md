@@ -9,11 +9,31 @@
 
 <p align="center">
   <a href="../README.md">简体中文</a> · <a href="README.en.md">English</a> · <b>日本語</b> · <a href="README.ko.md">한국어</a> · <a href="README.de.md">Deutsch</a>
+  <br>📖 <a href="TECHNICAL.en.md">技術ドキュメント</a> · <a href="TECHNICAL.md">技术文档</a>
 </p>
 
-> [!WARNING]
-> 本プロジェクトは**非公式**のサードパーティ製ツールであり、雀魂（Mahjong Soul）およびその開発・運営元とは一切関係ありません。「雀魂 / Mahjong Soul」は各権利者の商標です。
-> 補助機能や自動打牌機能の使用は、ゲームの利用規約に違反する可能性があります。**アカウントのリスクはご自身の責任となります**。友人戦での使用、練習、牌譜の振り返りに限ることをおすすめします。
+> [!CAUTION]
+> 本プロジェクトは雀魂（Mahjong Soul）およびその運営とは一切関係のない**非公式**のサードパーティ製ツールで、学習・参考・交流のみを目的としています。ダウンロード後 24 時間以内に削除してください。商用利用は禁止します。違反した場合の結果はすべて自己責任です。
+>
+> 雀魂の運営により検出され、アカウントが停止される可能性があります。いかなる結果についても作者は一切責任を負いません。本プロジェクトを使用した時点で、上記の条項を理解し同意したものとみなします。
+
+## 実際の様子
+
+以下はすべて友人戦の CPU 対局（四人東風戦）を**自動モード**で最後まで打った実録です。判断 96 回、結果は **1 位・44,000 点**。ユーザー名はモザイク処理済みです。
+
+<p align="center"><img src="media/autoplay.gif" width="860" alt="auto-play demo"></p>
+<p align="center">AI がリーチ → 満貫ツモ 8,000 点 → 3 位から 1 位へ（2 倍速） · <a href="media/demo.mp4">▶ 動画を見る（50 秒）</a></p>
+
+| | |
+|---|---|
+| <img src="media/screenshots/autoplay.zh.jpg" alt="自動打牌：リーチ後に満貫テンパイ、AI と 12 手連続一致"> | <img src="media/screenshots/defense.zh.jpg" alt="対面リーチ：最も安全な牌を表示し、押し引きはベタオリへ"> |
+| 自動打牌：リーチ後に満貫テンパイ、AI と 12 手連続一致 | 対面リーチ：最も安全な牌を表示し、押し引きはベタオリへ |
+| <img src="media/screenshots/tenpai.zh.jpg" alt="二家リーチ中のテンパイ：待ち・残り枚数・打点がひと目で分かる"> | <img src="media/screenshots/tsumo.zh.jpg" alt="AI がツモを選択、サイドバーに理由を表示"> |
+| 二家リーチ中のテンパイ：待ち・残り枚数・打点がひと目で分かる | AI がツモを選択、サイドバーに理由を表示 |
+| <img src="media/screenshots/win.zh.jpg" alt="和了画面"> | <img src="media/screenshots/result.zh.jpg" alt="終局：1 位・44,000 点"> |
+| 和了画面 | 終局：1 位・44,000 点 |
+
+<p align="center"><img src="media/screenshots/pages.jpg" width="860" alt="pages"><br>サイドバー：牌譜 · 統計 · モデル · 設定（5 言語）</p>
 
 ## できること
 
@@ -25,6 +45,44 @@
 - **自動打牌（任意）**：AI の判断に従ってクリックを模擬し、思考時間も設けます。不確かな点（局面の同期ずれ、モデルの異常、クリックが確認できない）があるとまず停止し、次の手番で自動的に復帰します。いつでも緊急停止できます。
 - **自動マッチング、牌譜の記録と振り返り**、複数モデルの管理、ダーク / ライトテーマ。
 - **5 つの表示言語**：简体中文、English、日本語、한국어、Deutsch。
+
+## しくみ
+
+```mermaid
+flowchart LR
+  subgraph EL["Electron app"]
+    direction TB
+    GAME["Game view<br/>Mahjong Soul web client"]
+    MAIN["Main process<br/>FrameTap reads frames · ClickExecutor clicks"]
+    UI["Sidebar UI"]
+    HUD["In-game overlay<br/>transparent · click-through"]
+  end
+  subgraph PY["Python Core"]
+    direction TB
+    SES["Protocol decoding → game state machine<br/>→ decisions / analysis"]
+    WK["Mortal inference subprocess"]
+  end
+  SRV[("Mahjong Soul server")]
+  GAME <-->|"WebSocket"| SRV
+  GAME -.->|"read-only frame copies"| MAIN
+  MAIN -->|"simulated mouse"| GAME
+  MAIN <-->|"NDJSON"| SES
+  SES <-->|"MJAI, one question one answer"| WK
+  MAIN --> UI
+  MAIN --> HUD
+```
+
+
+```mermaid
+flowchart LR
+  A["Frame received<br/>(read-only copy)"] --> B["liqi decoding"] --> C["Game state machine<br/>→ MJAI events"] --> D["Mortal inference<br/>candidate probabilities"]
+  D --> E["Legality check<br/>+ click plan"] --> F["Think time<br/>based on confidence"] --> G["Simulated click"] --> H{"Game sent the<br/>matching request?"}
+  H -- yes --> OK["Done"]
+  H -- no --> P["Pause, auto-resume next action"]
+  D --> S["Sidebar & overlay<br/>show advice and reasons"]
+```
+
+図は英語版です。設計と実装の詳細は **[技術ドキュメント（英語）](TECHNICAL.en.md)**（[中文](TECHNICAL.md)）を参照してください。
 
 ## ダウンロード
 
@@ -121,21 +179,7 @@ PyInstaller はクロスコンパイルできないため、Windows 版と Linux
 > **Intel Mac についての注意**：PyTorch は 2.2 以降 macOS x86_64 版を提供していないため、Intel Mac では torch 2.2.2 + numpy 1.26 に固定しています（`core/pyproject.toml` でプラットフォームごとに分けています）。
 > Apple Silicon 上で Intel 版をビルドするには、先に Rosetta 2 をインストールしてください（`softwareupdate --install-rosetta`）。スクリプトが Rust のターゲット `x86_64-apple-darwin` を自動的に追加します。
 
-### GitHub Actions で 4 プラットフォームを一括ビルド
-
-リポジトリの `.github/workflows/release.yml` は、macOS（Apple Silicon、Intel）、Windows、Linux の 4 つのネイティブ環境でそれぞれパッケージ化します。
-GitHub の **Actions → release → Run workflow** から手動で実行します。デフォルトではインストーラ（Artifacts）をアップロードするだけで、`draft` にチェックを入れると**下書き**の Release も作成されます。内容を確認してから、Web 上で手動で公開してください。
-
-### その他のチェック
-
-```bash
-scripts/verify-readonly.sh        # 静的チェック：コード内にプロトコルへの書き込みやネットワークを変更する呼び出しがないこと
-cd apps/desktop
-pnpm e2e:click                    # 実際のマウスイベント → 偽の Canvas、クリック座標と「重複クリックゼロ」を検証
-pnpm e2e:hud                      # ゲーム内情報レイヤーが卓、ボタン、手牌を隠さないこと（ピクセル単位）
-pnpm design:shots                 # サイドバーの各状態のスクリーンショット → test/design-shots/
-pnpm icon                         # アプリアイコンを再生成（macOS の宋体が必要）
-```
+マルチプラットフォームのリリース手順やテスト・セルフチェックの詳細は、技術ドキュメント（英語）の [Build, Packaging and Release](TECHNICAL.en.md#17-build-packaging-and-release) と [Test Suite](TECHNICAL.en.md#18-test-suite) を参照してください。
 
 ## プロジェクト構成
 

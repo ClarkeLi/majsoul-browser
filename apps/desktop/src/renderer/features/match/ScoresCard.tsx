@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { seatWind } from '@renderer/lib/dora'
-import { relSeat } from '@renderer/lib/tiles'
+import { relSeat, windChar } from '@renderer/lib/tiles'
 import type { StateMsg } from '@shared/protocol'
 import { fmtDiff } from './OpponentsCard'
 import s from './ScoresCard.module.css'
@@ -19,7 +19,7 @@ export function ScoresCard({ state }: { state: StateMsg }) {
           <div key={seat} className={s.cell} data-me={me || undefined}>
             {state.riichi.includes(seat) && <i className={s.ri} aria-label={t('scoreCard.riichi')} />}
             <div className={s.hd}>
-              <b data-oya={wind === 'E' || undefined}>{t(`wind.${wind}`)}</b>
+              <b data-oya={wind === 'E' || undefined}>{windChar(t, wind)}</b>
               <span>{me ? t('scoreCard.you') : t(`seat.${relSeat(seat, self)}`)}</span>
             </div>
             <div className={[s.pt, 'num'].join(' ')}>{(state.scores[seat] ?? 0).toLocaleString('en-US')}</div>

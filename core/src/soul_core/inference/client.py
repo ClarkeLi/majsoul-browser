@@ -2,9 +2,10 @@
 from __future__ import annotations
 
 import json
-import select
+import queue
 import subprocess
 import sys
+import threading
 import time
 
 from soul_core.selfcmd import self_command
@@ -21,6 +22,7 @@ class WorkerClient:
         self.model_path, self.device, self.env = model_path, device, env
         self.proc: subprocess.Popen | None = None
         self.seat: int | None = None
+        self._lines: queue.Queue = queue.Queue()
 
     def start(self, seat: int) -> None:
         self.stop()
@@ -30,6 +32,19 @@ class WorkerClient:
              "--device", self.device, "--player-id", str(seat)],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=sys.stderr, text=True, bufsize=1,
             env=self.env)
+        # 用读线程 + 队列等回答：select() 在 Windows 上只支持 socket，不能用来等管道
+        self._lines = queue.Queue()
+        threading.Thread(target=self._pump, args=(self.proc, self._lines), daemon=True).start()
+
+    @staticmethod
+    def _pump(proc: subprocess.Popen, q: queue.Queue) -> None:
+        try:
+            for line in proc.stdout:
+                q.put(line)
+        except Exception:  # noqa: BLE001
+            pass
+        finally:
+            q.put(None)                      # 管道关闭 = 进程退出
 
     def alive(self) -> bool:
         return self.proc is not None and self.proc.poll() is None
@@ -54,11 +69,11 @@ class WorkerClient:
             self.proc.stdin.flush()
         except Exception as e:  # noqa: BLE001
             raise WorkerError(f"写入失败：{e}") from e
-        ready, _, _ = select.select([self.proc.stdout], [], [], timeout)
-        if not ready:
+        try:
+            line = self._lines.get(timeout=timeout)
+        except queue.Empty:
             self.stop()
-            raise WorkerError(f"推理超时（{timeout:g}s）")
-        line = self.proc.stdout.readline()
+            raise WorkerError(f"推理超时（{timeout:g}s）") from None
         if not line:
             raise WorkerError("推理进程已退出")
         ms = (time.perf_counter() - t0) * 1000

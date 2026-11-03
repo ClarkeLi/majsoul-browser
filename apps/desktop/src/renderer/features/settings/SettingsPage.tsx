@@ -9,9 +9,9 @@ import { Switch } from '@renderer/components/ui/Switch'
 import { updateSettings, useSettings } from '@renderer/stores'
 import s from './SettingsPage.module.css'
 
-function Row({ label, desc, children }: { label: string; desc: string; children: ReactNode }) {
+function Row({ label, desc, children, stack }: { label: string; desc: string; children: ReactNode; /** 控件太宽时放到标题下面一整行 */ stack?: boolean }) {
   return (
-    <div className={s.row}>
+    <div className={s.row} data-stack={stack || undefined}>
       <div className={s.text}><div className={s.label}>{label}</div><div className={s.desc}>{desc}</div></div>
       <div className={s.ctl}>{children}</div>
     </div>
@@ -67,7 +67,7 @@ export function SettingsPage({ version }: { version: string }) {
   return (
     <div className={s.page}>
       <h2 className={s.group}>{t('settings.general')}</h2>
-      <Row label={t('settings.language')} desc={t('settings.languageDesc')}>
+      <Row label={t('settings.language')} desc={t('settings.languageDesc')} stack>
         <SegmentedControl aria-label={t('settings.language')} value={st.language} onChange={(v) => { void i18n.changeLanguage(v); updateSettings({ language: v }) }}
           options={LANGS.map((l) => ({ value: l, label: LANG_LABELS[l] }))} />
       </Row>

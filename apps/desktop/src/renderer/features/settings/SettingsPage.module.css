@@ -3,6 +3,10 @@
 .group:first-child { margin-top: 0; }
 .row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); min-height: 48px; padding: var(--sp-2) 0; border-bottom: 1px solid var(--line); }
 .text { min-width: 0; }
+/* 五种语言放不进一行：标题在上，按钮在下并允许换行 */
+.row[data-stack] { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
+.row[data-stack] .ctl > div { display: flex; flex-wrap: wrap; height: auto; }
+.row[data-stack] .ctl button { flex: 1 0 auto; height: 24px; }
 .label { font-size: var(--fs-base); }
 .desc { font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--text-2); margin-top: 2px; }
 .ctl { flex: none; }

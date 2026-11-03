@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Tile } from '@renderer/components/ui/Tile'
 import { seatWind } from '@renderer/lib/dora'
-import { relSeat, tileName } from '@renderer/lib/tiles'
+import { relSeat, tileName, windChar } from '@renderer/lib/tiles'
 import type { RecommendationMsg, StateMsg } from '@shared/protocol'
 import { oppSafety, placement, riichiTurn, threatLevel, type SafeTile } from './coach'
 import { Rich } from './Term'
@@ -57,7 +57,7 @@ export function ThreatCard({ state, rec, u, hidden }: { state: StateMsg; rec: Re
         return (
           <div key={seat} className={s.row} data-danger={danger || undefined} data-level={lvl} data-riichi={riichi || undefined} style={{ animationDelay: `${k * 80}ms` }}>
             <div className={s.line}>
-              <span className={s.wd} data-oya={wind === 'E' || undefined}>{t(`wind.${wind}`)}</span>
+              <span className={s.wd} data-oya={wind === 'E' || undefined} title={t(`wind.${wind}`)}>{windChar(t, wind)}</span>
               <span className={s.who}>{t(`seat.${relSeat(seat, self)}`)}</span>
               <span className={s.rank} data-rank={place.ranks[seat]} title={t('coach.place.rank', { n: place.ranks[seat] })}>{place.ranks[seat]}</span>
               {riichi && <span className={s.stamp}>{t('action.riichi')}</span>}

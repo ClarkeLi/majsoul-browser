@@ -3,7 +3,7 @@ import { Bar, type BarTone } from '@renderer/components/ui/Bar'
 import { Pill } from '@renderer/components/ui/Pill'
 import { Tile } from '@renderer/components/ui/Tile'
 import { seatWind } from '@renderer/lib/dora'
-import { relSeat } from '@renderer/lib/tiles'
+import { relSeat, windChar } from '@renderer/lib/tiles'
 import type { StateMsg } from '@shared/protocol'
 import s from './OpponentsCard.module.css'
 
@@ -27,7 +27,7 @@ export function OpponentsCard({ state }: { state: StateMsg }) {
         return (
           <div key={seat} className={[s.opp, riichi ? s.riichi : ''].join(' ')}>
             <div className={s.head}>
-              <span className={s.wd} data-oya={wind === 'E' || undefined} aria-label={t(`wind.${wind}`)}>{t(`wind.${wind}`)}</span>
+              <span className={s.wd} data-oya={wind === 'E' || undefined} aria-label={t(`wind.${wind}`)}>{windChar(t, wind)}</span>
               <span className={s.who}>{t(`seat.${relSeat(seat, self)}`)}</span>
               {riichi && <Pill tone="red">{t('opp.riichi')}</Pill>}
               <span className={[s.pt, 'num'].join(' ')}>{(state.scores[seat] ?? 0).toLocaleString('en-US')}</span>

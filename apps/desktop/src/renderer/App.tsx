@@ -74,6 +74,8 @@ export function App() {
   }, [])
 
   useEffect(() => applyTheme(settings.theme), [settings.theme])
+  // 语言可能在别处被改（菜单、信息层、设置文件）：主界面也跟着切换
+  useEffect(() => { if (settings.language && i18n.language !== settings.language) void i18n.changeLanguage(settings.language) }, [settings.language])
 
   const setMode = useCallback((m: Mode) => {
     useSession.setState({ mode: m })
@@ -97,6 +99,7 @@ export function App() {
   function handleShortcut(name: string): void {
     if (name === 'toggle-sidebar') toggleSidebar()
     else if (name === 'toggle-assist') setMode(useSession.getState().mode === 'off' ? 'assist' : 'off')
+    else if (name === 'settings') setTab('settings')
     else if (name.startsWith('tab-')) setTab((['match', 'review', 'stats', 'models'] as TabId[])[Number(name.slice(4)) - 1] ?? 'match')
   }
 

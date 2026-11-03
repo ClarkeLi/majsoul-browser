@@ -31,3 +31,8 @@ export function relSeat(seat: number, self: number): (typeof SEAT_KEYS)[number] 
   return SEAT_KEYS[(seat - self + 4) % 4]!
 }
 export const WINDS = ['E', 'S', 'W', 'N'] as const
+
+/** 方块徽章里的风位：只取一个字（中日韩不变，英 / 德取首字母，如 East → E、Ost → O）。完整名称用 t(`wind.X`)。 */
+export function windChar(t: (k: string) => string, w: string): string {
+  return t(`wind.${w}`).trim().charAt(0)
+}

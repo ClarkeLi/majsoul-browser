@@ -9,11 +9,31 @@
 
 <p align="center">
   <a href="../README.md">简体中文</a> · <b>English</b> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <a href="README.de.md">Deutsch</a>
+  <br>📖 <a href="TECHNICAL.en.md">Technical docs</a> · <a href="TECHNICAL.md">技术文档</a>
 </p>
 
-> [!WARNING]
-> This is an **unofficial** third-party tool. It has no affiliation with Mahjong Soul or its developers and operators; "雀魂 / Mahjong Soul" is a trademark of its respective owners.
-> Using assist or auto-play features may violate the game's Terms of Service, and **you bear the account risk yourself**. We recommend using it only in friendly rooms, for practice, or for reviewing games.
+> [!CAUTION]
+> This is an **unofficial** third-party tool, not affiliated with Mahjong Soul or its operators, and is for learning, reference and discussion only. Delete it within 24 hours of downloading. Commercial use is prohibited; you bear all consequences otherwise.
+>
+> Mahjong Soul may detect its use and ban accounts; the author is not responsible for any consequences. By using this project you acknowledge and agree to these terms.
+
+## In action
+
+Everything below comes from one real friendly game against bots (4-player East round), played start to finish in **auto mode**: 96 decisions, finishing **1st with 44,000 points**. The username is pixelated.
+
+<p align="center"><img src="media/autoplay.gif" width="860" alt="auto-play demo"></p>
+<p align="center">AI declares riichi → self-draws a mangan (8,000) → climbs from 3rd to 1st (2× speed) · <a href="media/demo.mp4">▶ Watch the full video (50 s)</a></p>
+
+| | |
+|---|---|
+| <img src="media/screenshots/autoplay.zh.jpg" alt="Auto-play: mangan tenpai after riichi, 12 decisions in a row matching the AI"> | <img src="media/screenshots/defense.zh.jpg" alt="Opponent riichi: the banner names the safest tile and push/fold switches to fold"> |
+| Auto-play: mangan tenpai after riichi, 12 decisions in a row matching the AI | Opponent riichi: the banner names the safest tile and push/fold switches to fold |
+| <img src="media/screenshots/tenpai.zh.jpg" alt="Tenpai against two riichi: waits, tiles left and hand value at a glance"> | <img src="media/screenshots/tsumo.zh.jpg" alt="The AI takes the tsumo; the sidebar explains why"> |
+| Tenpai against two riichi: waits, tiles left and hand value at a glance | The AI takes the tsumo; the sidebar explains why |
+| <img src="media/screenshots/win.zh.jpg" alt="Win screen"> | <img src="media/screenshots/result.zh.jpg" alt="Final result: 1st with 44,000 points"> |
+| Win screen | Final result: 1st with 44,000 points |
+
+<p align="center"><img src="media/screenshots/pages.jpg" width="860" alt="pages"><br>Sidebar: review · stats · models · settings (five UI languages)</p>
 
 ## What it does
 
@@ -25,6 +45,49 @@
 - **Auto-play (optional)**: simulates clicks following the AI's decision, with a thinking delay. Anything uncertain (out-of-sync game state, model error, an unconfirmed click) stops it first, and it resumes automatically on the next turn. You can hit the emergency stop at any time.
 - **Auto matchmaking, game log recording and review**, multi-model management, dark / light themes.
 - **Five UI languages**: 简体中文, English, 日本語, 한국어, Deutsch.
+
+## How it works
+
+The Mahjong Soul page runs untouched. The shell reads every frame it sends and receives **read-only** through the browser's debugging interface,
+hands them to the local Python core and the Mortal model, and draws the advice on a transparent overlay. In auto mode it simulates mouse clicks
+and only counts an action as done once it sees the game actually send the matching request.
+
+```mermaid
+flowchart LR
+  subgraph EL["Electron app"]
+    direction TB
+    GAME["Game view<br/>Mahjong Soul web client"]
+    MAIN["Main process<br/>FrameTap reads frames · ClickExecutor clicks"]
+    UI["Sidebar UI"]
+    HUD["In-game overlay<br/>transparent · click-through"]
+  end
+  subgraph PY["Python Core"]
+    direction TB
+    SES["Protocol decoding → game state machine<br/>→ decisions / analysis"]
+    WK["Mortal inference subprocess"]
+  end
+  SRV[("Mahjong Soul server")]
+  GAME <-->|"WebSocket"| SRV
+  GAME -.->|"read-only frame copies"| MAIN
+  MAIN -->|"simulated mouse"| GAME
+  MAIN <-->|"NDJSON"| SES
+  SES <-->|"MJAI, one question one answer"| WK
+  MAIN --> UI
+  MAIN --> HUD
+```
+
+From an incoming frame to a discard:
+
+```mermaid
+flowchart LR
+  A["Frame received<br/>(read-only copy)"] --> B["liqi decoding"] --> C["Game state machine<br/>→ MJAI events"] --> D["Mortal inference<br/>candidate probabilities"]
+  D --> E["Legality check<br/>+ click plan"] --> F["Think time<br/>based on confidence"] --> G["Simulated click"] --> H{"Game sent the<br/>matching request?"}
+  H -- yes --> OK["Done"]
+  H -- no --> P["Pause, auto-resume next action"]
+  D --> S["Sidebar & overlay<br/>show advice and reasons"]
+```
+
+The full design and implementation (a dozen architecture diagrams, state machines, the coordinate system, algorithms and thresholds) is in the **[technical documentation](TECHNICAL.en.md)** ([中文](TECHNICAL.md)).
 
 ## Download
 
@@ -121,21 +184,7 @@ PyInstaller can't cross-compile, so the Windows and Linux builds must be made on
 > **Note on Intel Macs**: PyTorch no longer provides macOS x86_64 builds after 2.2, so Intel Macs are pinned to torch 2.2.2 + numpy 1.26 (distinguished by platform in `core/pyproject.toml`).
 > Building the Intel version on Apple Silicon requires installing Rosetta 2 first (`softwareupdate --install-rosetta`); the script adds the `x86_64-apple-darwin` Rust target automatically.
 
-### Building all four platforms with GitHub Actions
-
-`.github/workflows/release.yml` in the repository packages on four native environments: macOS (Apple Silicon, Intel), Windows and Linux.
-Trigger it manually at **Actions → release → Run workflow** on GitHub: by default it only uploads the installers (Artifacts); ticking `draft` also creates a **draft** Release, which you publish manually on the web once you've checked it.
-
-### Other checks
-
-```bash
-scripts/verify-readonly.sh        # static check: the code must contain no calls that write protocol data or modify the network
-cd apps/desktop
-pnpm e2e:click                    # real mouse events → fake Canvas, verifies click coordinates and "zero duplicate clicks"
-pnpm e2e:hud                      # the in-game info layer doesn't cover the table, buttons or hand (pixel by pixel)
-pnpm design:shots                 # screenshots of every sidebar state → test/design-shots/
-pnpm icon                         # regenerate the app icon (needs the macOS Songti font)
-```
+More details (the multi-platform release workflow, tests and self-checks) are in the technical docs: [Build, Packaging and Release](TECHNICAL.en.md#17-build-packaging-and-release) and [Test Suite](TECHNICAL.en.md#18-test-suite).
 
 ## Project structure
 

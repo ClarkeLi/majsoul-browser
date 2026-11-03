@@ -1,5 +1,8 @@
-# 模型与本地数据（不进 Git）
+# 模型、工具链与本地数据（不进 Git）
 /AI/
+/_ref/
+/.archive/
+/.claude/
 *.pth
 *.safetensors
 .data/

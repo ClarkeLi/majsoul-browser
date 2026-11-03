@@ -9,11 +9,31 @@
 
 <p align="center">
   <b>简体中文</b> · <a href="docs/README.en.md">English</a> · <a href="docs/README.ja.md">日本語</a> · <a href="docs/README.ko.md">한국어</a> · <a href="docs/README.de.md">Deutsch</a>
+  <br>📖 <a href="docs/TECHNICAL.md">技术文档</a> · <a href="docs/TECHNICAL.en.md">Technical docs</a>
 </p>
 
-> [!WARNING]
-> 本项目是**非官方**的第三方工具，与雀魂（Mahjong Soul）及其开发、运营方没有任何关系，“雀魂 / Mahjong Soul”是其权利人的商标。
-> 使用辅助或自动打牌功能可能违反游戏的服务条款，**账号风险由你自己承担**。建议只在友人场、练习或学习复盘时使用。
+> [!CAUTION]
+> 本项目是**非官方**第三方工具，与雀魂（Mahjong Soul）及其运营方没有任何关系，仅供学习参考交流。请使用者于下载 24 小时内自行删除，不得用于商业用途，否则后果自负。
+>
+> 雀魂官方可能会检测并封号，如产生任何后果与作者无关。使用本项目则表示你已知悉并同意以上条款。
+
+## 效果展示
+
+下面的画面都来自一局真实的友人场人机对局（四人东风），全程由**自动模式**打牌：96 次决策，最终 **一位 · 44,000 点**。用户名已打码。
+
+<p align="center"><img src="docs/media/autoplay.gif" width="860" alt="auto-play demo"></p>
+<p align="center">AI 立直 → 自摸满贯 8,000 点 → 名次从三位升到一位（2 倍速） · <a href="docs/media/demo.mp4">▶ 观看完整视频（50 秒）</a></p>
+
+| | |
+|---|---|
+| <img src="docs/media/screenshots/autoplay.zh.jpg" alt="自动打牌：立直后满贯听牌，与 AI 连续 12 手一致"> | <img src="docs/media/screenshots/defense.zh.jpg" alt="对家立直：横幅提示最安全的牌，押引判断转为弃和"> |
+| 自动打牌：立直后满贯听牌，与 AI 连续 12 手一致 | 对家立直：横幅提示最安全的牌，押引判断转为弃和 |
+| <img src="docs/media/screenshots/tenpai.zh.jpg" alt="两家立直时听牌：待牌、余张与打点一目了然"> | <img src="docs/media/screenshots/tsumo.zh.jpg" alt="AI 选择自摸，并在侧栏给出理由与知识点"> |
+| 两家立直时听牌：待牌、余张与打点一目了然 | AI 选择自摸，并在侧栏给出理由与知识点 |
+| <img src="docs/media/screenshots/win.zh.jpg" alt="和了画面"> | <img src="docs/media/screenshots/result.zh.jpg" alt="终局：一位 44,000 点"> |
+| 和了画面 | 终局：一位 44,000 点 |
+
+<p align="center"><img src="docs/media/screenshots/pages.jpg" width="860" alt="pages"><br>侧栏：复盘 · 统计 · 模型 · 设置（五种界面语言）</p>
 
 ## 它能做什么
 
@@ -25,6 +45,48 @@
 - **自动打牌（可选）**：按 AI 的决定模拟点击，带思考时间；任何不确定（牌局不同步、模型异常、点击没被确认）都会先停下，下一手自动恢复；随时可以急停。
 - **自动匹配、牌谱记录与复盘**、多模型管理、深色 / 浅色主题。
 - **五种界面语言**：简体中文、English、日本語、한국어、Deutsch。
+
+## 工作原理
+
+雀魂网页照常运行；外壳通过浏览器调试接口**只读**地拿到它收发的每一帧，交给本地的 Python 大脑和 Mortal 模型，
+建议画在一层透明的信息层上；自动模式下再模拟鼠标点击，并且要看到游戏真的发出了对应操作才算完成。
+
+```mermaid
+flowchart LR
+  subgraph EL["Electron 应用"]
+    direction TB
+    GAME["游戏视图<br/>雀魂网页版"]
+    MAIN["主进程<br/>FrameTap 读帧 · ClickExecutor 点击"]
+    UI["侧栏界面"]
+    HUD["游戏内信息层<br/>透明 · 点击穿透"]
+  end
+  subgraph PY["Python Core"]
+    direction TB
+    SES["协议解码 → 牌局状态机<br/>→ 决策 / 分析"]
+    WK["Mortal 推理子进程"]
+  end
+  SRV[("雀魂服务器")]
+  GAME <-->|"WebSocket"| SRV
+  GAME -.->|"只读：帧副本"| MAIN
+  MAIN -->|"模拟鼠标"| GAME
+  MAIN <-->|"NDJSON"| SES
+  SES <-->|"MJAI 一问一答"| WK
+  MAIN --> UI
+  MAIN --> HUD
+```
+
+一手牌从收到到打出：
+
+```mermaid
+flowchart LR
+  A["收到帧<br/>（只读副本）"] --> B["liqi 解码"] --> C["牌局状态机<br/>→ MJAI 事件"] --> D["Mortal 推理<br/>候选概率"]
+  D --> E["合法性校验<br/>+ 点击规划"] --> F["按把握度<br/>等待思考时间"] --> G["模拟点击"] --> H{"看到游戏发出<br/>对应操作？"}
+  H -- 是 --> OK["完成"]
+  H -- 否 --> P["暂停，下一手自动恢复"]
+  D --> S["侧栏与信息层<br/>显示建议与理由"]
+```
+
+完整的设计与实现（十几张架构图、状态机、坐标系、算法与阈值）见 **[技术文档](docs/TECHNICAL.md)**（[English](docs/TECHNICAL.en.md)）。
 
 ## 下载
 
@@ -121,21 +183,7 @@ PyInstaller 不能交叉编译，所以 Windows 和 Linux 版要在对应系统�
 > **Intel Mac 说明**：PyTorch 2.2 之后不再提供 macOS x86_64 版本，所以 Intel Mac 上固定使用 torch 2.2.2 + numpy 1.26（`core/pyproject.toml` 里按平台区分）。
 > 在 Apple Silicon 上构建 Intel 版需要先安装 Rosetta 2（`softwareupdate --install-rosetta`），脚本会自动添加 `x86_64-apple-darwin` 的 Rust 目标。
 
-### 用 GitHub Actions 一次打出四个平台
-
-仓库里的 `.github/workflows/release.yml` 在 macOS（Apple Silicon、Intel）、Windows、Linux 四个原生环境上分别打包。
-在 GitHub 的 **Actions → release → Run workflow** 手动触发：默认只上传安装包（Artifacts），勾选 `draft` 会额外创建一个**草稿** Release，确认无误后再在网页上手动发布。
-
-### 其他检查
-
-```bash
-scripts/verify-readonly.sh        # 静态检查：代码里不能出现任何写协议 / 改网络的调用
-cd apps/desktop
-pnpm e2e:click                    # 真实鼠标事件 → 假 Canvas，核对点击坐标与“零重复点”
-pnpm e2e:hud                      # 游戏内信息层不遮挡牌桌、按钮、手牌（逐像素）
-pnpm design:shots                 # 侧栏各状态截图 → test/design-shots/
-pnpm icon                         # 重新生成应用图标（需要 macOS 的宋体）
-```
+更多细节（多平台发布流程、测试与自检命令）见技术文档的[构建、打包与发布](docs/TECHNICAL.md#17-构建打包与发布)和[测试体系](docs/TECHNICAL.md#18-测试体系)。
 
 ## 项目结构
 

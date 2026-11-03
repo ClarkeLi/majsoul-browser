@@ -25,6 +25,8 @@ if [ "$MAC_X64" = 1 ]; then
   uv sync --frozen --python "$PY"
   RUN=(arch -x86_64 "$UV_PROJECT_ENVIRONMENT/bin/python")
 else
+  # Apple Silicon 上明确要 arm64 的 Python：机器上同时装着 x86_64 版（构建 Intel 包用）时 uv 可能挑错
+  if [ "$(uname -s)" = Darwin ] && [ "$(uname -m)" = arm64 ]; then export UV_PYTHON=cpython-3.12-macos-aarch64-none; fi
   uv sync --frozen
   RUN=(uv run --frozen python)
 fi

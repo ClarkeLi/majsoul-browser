@@ -5,6 +5,7 @@ import { PROTOCOL_VERSION, type CoreMessage, type IntentMsg, type Mode } from '@
 import { AutoMatch, roomOfModeId, type AutoMatchStatus } from './auto-match'
 import { ClickExecutor, windowCanClick } from './click-executor'
 import { mt, systemLang } from './i18n'
+import { startDevDrive } from './dev-drive'
 import { CoreClient } from './core-client'
 import { FrameTap } from './frame-tap'
 import { Overlay } from './overlay'
@@ -344,6 +345,15 @@ function sendCoreConfig(): void {
 }
 
 // ------------------------------------------------------------------ IPC
+function setMode(m: Mode): void {
+  if (!['off', 'assist', 'auto'].includes(m)) return
+  mode = m
+  syncAutoMatch()
+  updateHud()
+  if (m !== 'auto') currentIntent = null
+  core.send({ t: 'mode.set', mode: m })
+}
+
 function setupIpc(): void {
   ipcMain.handle('app:info', () => ({ dataRoot, version: app.getVersion(), platform: process.platform, protocolVersion: PROTOCOL_VERSION, packaged: app.isPackaged }))
   ipcMain.handle('settings:get', () => settings.get())
@@ -360,14 +370,7 @@ function setupIpc(): void {
     if ('language' in p) setupMenu()                     // 菜单跟着界面语言走
     return next
   })
-  ipcMain.on('mode:set', (_e, m: Mode) => {
-    if (!['off', 'assist', 'auto'].includes(m)) return
-    mode = m
-    syncAutoMatch()
-    updateHud()
-    if (m !== 'auto') currentIntent = null
-    core.send({ t: 'mode.set', mode: m })
-  })
+  ipcMain.on('mode:set', (_e, m: Mode) => setMode(m))
   ipcMain.on('auto:stop', () => stopAuto('user'))
   // 信息层：鼠标移到面板上时接收点击，离开后恢复点击穿透（只接受信息层自己发来的）
   ipcMain.on('hud:interactive', (e, v: unknown) => { if (overlay?.isSender(e.sender)) overlay.setInteractive(v === true) })
@@ -454,6 +457,26 @@ app.whenReady().then(async () => {
       process.stdout.write('SMOKE ' + JSON.stringify({ core: core.status, frames: frameCount, ...smoke, dataRoot, gameUrl: gameView.webContents.getURL() }) + '\n')
       app.quit()
     }, smokeS * 1000)
+  }
+  // 开发用的拍素材遥控（见 dev-drive.ts）：只在开发模式且设置了 MB_DRIVE_DIR 时启用
+  if (!app.isPackaged && process.env.MB_DRIVE_DIR) {
+    startDevDrive(process.env.MB_DRIVE_DIR, {
+      win: () => win, game: () => gameView, hud: () => (overlay ? () => overlay.snapshot() : null),
+      layout: () => {
+        const [w, h] = win.getContentSize() as [number, number]
+        const st = settings.get()
+        const l = computeLayout(w, h, st.sidebar, { reserve: st.hudReserve, dock: st.hudDock })
+        return { game: l.game, area: l.area }
+      },
+      click: clickGame, setMode,
+      shortcut: (name) => toRenderer('app:event', { t: 'shortcut', name }),
+      patchSettings: (p) => {
+        const next = settings.patch(p as never)
+        overlay?.send('settings:changed', next); toRenderer('app:event', { t: 'settings', settings: next }); applyLayout(); updateHud()
+        if ('language' in p) setupMenu()
+      },
+      state: () => ({ mode, hudPhase, pausedReason, frames: frameCount, intent: currentIntent?.actionId ?? null })
+    })
   }
   if (!globalShortcut.register('CommandOrControl+Shift+Space', () => stopAuto('hotkey'))) {
     process.stderr.write('急停快捷键注册失败\n')

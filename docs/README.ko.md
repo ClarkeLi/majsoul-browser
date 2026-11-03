@@ -9,11 +9,31 @@
 
 <p align="center">
   <a href="../README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.ja.md">日本語</a> · <b>한국어</b> · <a href="README.de.md">Deutsch</a>
+  <br>📖 <a href="TECHNICAL.en.md">기술 문서</a> · <a href="TECHNICAL.md">技术文档</a>
 </p>
 
-> [!WARNING]
-> 이 프로젝트는 **비공식** 서드파티 도구이며, 작혼(Mahjong Soul) 및 그 개발·운영사와 아무런 관련이 없습니다. "雀魂 / Mahjong Soul"은 해당 권리자의 상표입니다.
-> 보조 또는 자동 타패 기능을 사용하면 게임 이용약관을 위반할 수 있으며, **계정 위험은 본인이 부담합니다**. 친선전, 연습, 복기 용도로만 사용하기를 권장합니다.
+> [!CAUTION]
+> 이 프로젝트는 작혼(Mahjong Soul) 및 그 운영사와 아무런 관련이 없는 **비공식** 서드파티 도구로, 학습·참고·교류 목적으로만 제공됩니다. 다운로드 후 24시간 이내에 삭제해 주세요. 상업적 이용은 금지되며, 이를 어길 경우 모든 결과는 본인이 책임집니다.
+>
+> 작혼 운영 측이 이를 감지하여 계정을 정지할 수 있으며, 어떠한 결과에 대해서도 작성자는 책임지지 않습니다. 이 프로젝트를 사용하면 위 조항을 이해하고 동의한 것으로 간주합니다.
+
+## 실제 모습
+
+아래 화면은 모두 친선전 컴퓨터 대국(4인 동풍전)을 **자동 모드**로 끝까지 친 실제 기록입니다. 판단 96회, 결과는 **1위 · 44,000점**. 사용자 이름은 모자이크 처리했습니다.
+
+<p align="center"><img src="media/autoplay.gif" width="860" alt="auto-play demo"></p>
+<p align="center">AI 리치 → 만관 쯔모 8,000점 → 3위에서 1위로(2배속) · <a href="media/demo.mp4">▶ 전체 영상 보기(50초)</a></p>
+
+| | |
+|---|---|
+| <img src="media/screenshots/autoplay.zh.jpg" alt="자동 타패: 리치 후 만관 텐파이, AI와 12수 연속 일치"> | <img src="media/screenshots/defense.zh.jpg" alt="대면 리치: 가장 안전한 패를 알려 주고 밀고 당기기는 베타오리로"> |
+| 자동 타패: 리치 후 만관 텐파이, AI와 12수 연속 일치 | 대면 리치: 가장 안전한 패를 알려 주고 밀고 당기기는 베타오리로 |
+| <img src="media/screenshots/tenpai.zh.jpg" alt="두 명 리치 중 텐파이: 대기패·남은 장수·점수를 한눈에"> | <img src="media/screenshots/tsumo.zh.jpg" alt="AI가 쯔모를 선택하고 사이드바에 이유를 표시"> |
+| 두 명 리치 중 텐파이: 대기패·남은 장수·점수를 한눈에 | AI가 쯔모를 선택하고 사이드바에 이유를 표시 |
+| <img src="media/screenshots/win.zh.jpg" alt="화료 화면"> | <img src="media/screenshots/result.zh.jpg" alt="종국: 1위 · 44,000점"> |
+| 화료 화면 | 종국: 1위 · 44,000점 |
+
+<p align="center"><img src="media/screenshots/pages.jpg" width="860" alt="pages"><br>사이드바: 패보 · 통계 · 모델 · 설정(5개 언어)</p>
 
 ## 무엇을 할 수 있나요
 
@@ -25,6 +45,44 @@
 - **자동 타패(선택)**: AI의 결정에 따라 클릭을 흉내 내며, 생각하는 시간을 둡니다. 불확실한 상황(대국 상태 불일치, 모델 이상, 클릭이 확인되지 않음)이 생기면 먼저 멈추고 다음 차례에 자동으로 재개됩니다. 언제든 긴급 정지할 수 있습니다.
 - **자동 매칭, 패보 기록과 복기**, 여러 모델 관리, 다크 / 라이트 테마.
 - **다섯 가지 UI 언어**: 简体中文, English, 日本語, 한국어, Deutsch.
+
+## 동작 원리
+
+```mermaid
+flowchart LR
+  subgraph EL["Electron app"]
+    direction TB
+    GAME["Game view<br/>Mahjong Soul web client"]
+    MAIN["Main process<br/>FrameTap reads frames · ClickExecutor clicks"]
+    UI["Sidebar UI"]
+    HUD["In-game overlay<br/>transparent · click-through"]
+  end
+  subgraph PY["Python Core"]
+    direction TB
+    SES["Protocol decoding → game state machine<br/>→ decisions / analysis"]
+    WK["Mortal inference subprocess"]
+  end
+  SRV[("Mahjong Soul server")]
+  GAME <-->|"WebSocket"| SRV
+  GAME -.->|"read-only frame copies"| MAIN
+  MAIN -->|"simulated mouse"| GAME
+  MAIN <-->|"NDJSON"| SES
+  SES <-->|"MJAI, one question one answer"| WK
+  MAIN --> UI
+  MAIN --> HUD
+```
+
+
+```mermaid
+flowchart LR
+  A["Frame received<br/>(read-only copy)"] --> B["liqi decoding"] --> C["Game state machine<br/>→ MJAI events"] --> D["Mortal inference<br/>candidate probabilities"]
+  D --> E["Legality check<br/>+ click plan"] --> F["Think time<br/>based on confidence"] --> G["Simulated click"] --> H{"Game sent the<br/>matching request?"}
+  H -- yes --> OK["Done"]
+  H -- no --> P["Pause, auto-resume next action"]
+  D --> S["Sidebar & overlay<br/>show advice and reasons"]
+```
+
+도표는 영어로 되어 있습니다. 설계와 구현의 자세한 내용은 **[기술 문서(영어)](TECHNICAL.en.md)**([中文](TECHNICAL.md))를 참고하세요.
 
 ## 다운로드
 
@@ -121,21 +179,7 @@ PyInstaller는 크로스 컴파일이 안 되므로 Windows와 Linux 버전은 �
 > **Intel Mac 참고**: PyTorch는 2.2 이후 macOS x86_64 버전을 제공하지 않으므로, Intel Mac에서는 torch 2.2.2 + numpy 1.26으로 고정합니다(`core/pyproject.toml`에서 플랫폼별로 구분).
 > Apple Silicon에서 Intel 버전을 빌드하려면 먼저 Rosetta 2를 설치해야 하며(`softwareupdate --install-rosetta`), 스크립트가 Rust 타깃 `x86_64-apple-darwin`을 자동으로 추가합니다.
 
-### GitHub Actions로 네 플랫폼을 한 번에 빌드
-
-저장소의 `.github/workflows/release.yml`은 macOS(Apple Silicon, Intel), Windows, Linux의 네 가지 네이티브 환경에서 각각 패키징합니다.
-GitHub의 **Actions → release → Run workflow**에서 수동으로 실행하세요. 기본적으로는 설치 파일(Artifacts)만 업로드하며, `draft`를 체크하면 **초안** Release도 함께 만듭니다. 내용을 확인한 뒤 웹에서 직접 게시하세요.
-
-### 기타 검사
-
-```bash
-scripts/verify-readonly.sh        # 정적 검사: 코드에 프로토콜 쓰기 / 네트워크 변경 호출이 하나도 없어야 함
-cd apps/desktop
-pnpm e2e:click                    # 실제 마우스 이벤트 → 가짜 Canvas, 클릭 좌표와 "중복 클릭 0회" 확인
-pnpm e2e:hud                      # 게임 내 정보 레이어가 패 테이블, 버튼, 손패를 가리지 않는지 (픽셀 단위)
-pnpm design:shots                 # 사이드바 각 상태의 스크린샷 → test/design-shots/
-pnpm icon                         # 앱 아이콘 재생성 (macOS의 송체 폰트 필요)
-```
+멀티 플랫폼 릴리스 절차와 테스트·자체 점검에 대한 자세한 내용은 기술 문서(영어)의 [Build, Packaging and Release](TECHNICAL.en.md#17-build-packaging-and-release)와 [Test Suite](TECHNICAL.en.md#18-test-suite)를 참고하세요.
 
 ## 프로젝트 구조
 

@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Tile } from '@renderer/components/ui/Tile'
 import { seatWind } from '@renderer/lib/dora'
-import { relSeat, tileName } from '@renderer/lib/tiles'
+import { relSeat, tileName, windChar } from '@renderer/lib/tiles'
 import type { GroupView, HandGroup, HandValue, Meld, StateMsg, WaitValue } from '@shared/protocol'
 import { BAR_MIN } from '@shared/layout-fit'
 import { placeAdvice, placement } from './coach'
@@ -196,7 +196,7 @@ export function TopBar({ h, state, danger = 0 }: { h: number; state: StateMsg; d
           const w = seatWind(seat, r.oya)
           return (
             <span key={seat} className={s.sc} data-me={me || undefined} data-riichi={state.riichi.includes(seat) || undefined}>
-              <b data-oya={w === 'E' || undefined}>{t(`wind.${w}`)}</b>
+              <b data-oya={w === 'E' || undefined} title={t(`wind.${w}`)}>{windChar(t, w)}</b>
               <i>{me ? t('scoreCard.you') : t(`seat.${relSeat(seat, self)}`)}</i>
               <span className="num">{fmt(state.scores[seat] ?? 0)}</span>
               {!me && <em className="num">{diff((state.scores[seat] ?? 0) - (state.scores[self] ?? 0))}</em>}

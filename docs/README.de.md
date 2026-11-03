@@ -9,11 +9,31 @@
 
 <p align="center">
   <a href="../README.md">简体中文</a> · <a href="README.en.md">English</a> · <a href="README.ja.md">日本語</a> · <a href="README.ko.md">한국어</a> · <b>Deutsch</b>
+  <br>📖 <a href="TECHNICAL.en.md">Technische Doku</a> · <a href="TECHNICAL.md">技术文档</a>
 </p>
 
-> [!WARNING]
-> Dieses Projekt ist ein **inoffizielles** Tool eines Drittanbieters und steht in keiner Verbindung zu Mahjong Soul oder dessen Entwicklern und Betreibern. „雀魂 / Mahjong Soul“ ist eine Marke der jeweiligen Rechteinhaber.
-> Die Nutzung von Assistenz- oder Auto-Play-Funktionen kann gegen die Nutzungsbedingungen des Spiels verstoßen; **das Risiko für deinen Account trägst du selbst**. Wir empfehlen, es nur in Freundesräumen, zum Üben oder zur Analyse von Partien zu verwenden.
+> [!CAUTION]
+> Dies ist ein **inoffizielles** Drittanbieter-Tool ohne Verbindung zu Mahjong Soul oder dessen Betreibern und dient ausschließlich zum Lernen, als Referenz und zum Austausch. Lösche es innerhalb von 24 Stunden nach dem Download. Kommerzielle Nutzung ist untersagt; andernfalls trägst du alle Folgen selbst.
+>
+> Mahjong Soul kann die Nutzung erkennen und Konten sperren; der Autor haftet für keinerlei Folgen. Mit der Nutzung dieses Projekts bestätigst du, diese Bedingungen zu kennen und ihnen zuzustimmen.
+
+## In Aktion
+
+Alles unten stammt aus einer echten Freundesrunde gegen Bots (4 Spieler, Ostrunde), komplett im **Auto-Modus** gespielt: 96 Entscheidungen, Ergebnis **Platz 1 mit 44.000 Punkten**. Der Benutzername ist verpixelt.
+
+<p align="center"><img src="media/autoplay.gif" width="860" alt="auto-play demo"></p>
+<p align="center">KI erklärt Riichi → Tsumo-Mangan (8.000) → von Platz 3 auf Platz 1 (2× Tempo) · <a href="media/demo.mp4">▶ Ganzes Video ansehen (50 s)</a></p>
+
+| | |
+|---|---|
+| <img src="media/screenshots/autoplay.zh.jpg" alt="Auto-Play: Mangan-Tenpai nach Riichi, 12 Züge in Folge wie die KI"> | <img src="media/screenshots/defense.zh.jpg" alt="Riichi des Gegenübers: Banner zeigt den sichersten Stein, Push/Fold schaltet auf Fold"> |
+| Auto-Play: Mangan-Tenpai nach Riichi, 12 Züge in Folge wie die KI | Riichi des Gegenübers: Banner zeigt den sichersten Stein, Push/Fold schaltet auf Fold |
+| <img src="media/screenshots/tenpai.zh.jpg" alt="Tenpai gegen zwei Riichi: Wartesteine, Restanzahl und Wert auf einen Blick"> | <img src="media/screenshots/tsumo.zh.jpg" alt="Die KI nimmt das Tsumo, die Seitenleiste erklärt warum"> |
+| Tenpai gegen zwei Riichi: Wartesteine, Restanzahl und Wert auf einen Blick | Die KI nimmt das Tsumo, die Seitenleiste erklärt warum |
+| <img src="media/screenshots/win.zh.jpg" alt="Gewinnbildschirm"> | <img src="media/screenshots/result.zh.jpg" alt="Endstand: Platz 1 mit 44.000 Punkten"> |
+| Gewinnbildschirm | Endstand: Platz 1 mit 44.000 Punkten |
+
+<p align="center"><img src="media/screenshots/pages.jpg" width="860" alt="pages"><br>Seitenleiste: Analyse · Statistik · Modelle · Einstellungen (fünf Sprachen)</p>
 
 ## Was es kann
 
@@ -25,6 +45,44 @@
 - **Auto-Play (optional)**: Klickt nach der Entscheidung der KI, mit Bedenkzeit. Bei jeder Unsicherheit (Partie nicht synchron, Modellfehler, nicht bestätigter Klick) hält es zuerst an und macht beim nächsten Zug automatisch weiter. Der Not-Stopp ist jederzeit möglich.
 - **Automatisches Matchmaking, Aufzeichnung und Analyse von Game Logs**, Verwaltung mehrerer Modelle, dunkles / helles Design.
 - **Fünf Oberflächensprachen**: 简体中文, English, 日本語, 한국어, Deutsch.
+
+## So funktioniert es
+
+```mermaid
+flowchart LR
+  subgraph EL["Electron app"]
+    direction TB
+    GAME["Game view<br/>Mahjong Soul web client"]
+    MAIN["Main process<br/>FrameTap reads frames · ClickExecutor clicks"]
+    UI["Sidebar UI"]
+    HUD["In-game overlay<br/>transparent · click-through"]
+  end
+  subgraph PY["Python Core"]
+    direction TB
+    SES["Protocol decoding → game state machine<br/>→ decisions / analysis"]
+    WK["Mortal inference subprocess"]
+  end
+  SRV[("Mahjong Soul server")]
+  GAME <-->|"WebSocket"| SRV
+  GAME -.->|"read-only frame copies"| MAIN
+  MAIN -->|"simulated mouse"| GAME
+  MAIN <-->|"NDJSON"| SES
+  SES <-->|"MJAI, one question one answer"| WK
+  MAIN --> UI
+  MAIN --> HUD
+```
+
+
+```mermaid
+flowchart LR
+  A["Frame received<br/>(read-only copy)"] --> B["liqi decoding"] --> C["Game state machine<br/>→ MJAI events"] --> D["Mortal inference<br/>candidate probabilities"]
+  D --> E["Legality check<br/>+ click plan"] --> F["Think time<br/>based on confidence"] --> G["Simulated click"] --> H{"Game sent the<br/>matching request?"}
+  H -- yes --> OK["Done"]
+  H -- no --> P["Pause, auto-resume next action"]
+  D --> S["Sidebar & overlay<br/>show advice and reasons"]
+```
+
+Die Diagramme sind auf Englisch. Alle Details zu Design und Implementierung stehen in der **[technischen Dokumentation (Englisch)](TECHNICAL.en.md)** ([中文](TECHNICAL.md)).
 
 ## Download
 
@@ -121,21 +179,7 @@ PyInstaller kann nicht cross-kompilieren, deshalb müssen die Windows- und Linux
 > **Hinweis zu Intel-Macs**: Nach PyTorch 2.2 gibt es keine macOS-x86_64-Builds mehr, deshalb ist auf Intel-Macs torch 2.2.2 + numpy 1.26 fest eingestellt (in `core/pyproject.toml` nach Plattform unterschieden).
 > Um die Intel-Version auf Apple Silicon zu bauen, musst du zuerst Rosetta 2 installieren (`softwareupdate --install-rosetta`); das Skript fügt das Rust-Target `x86_64-apple-darwin` automatisch hinzu.
 
-### Alle vier Plattformen mit GitHub Actions bauen
-
-`.github/workflows/release.yml` im Repository paketiert auf vier nativen Umgebungen: macOS (Apple Silicon, Intel), Windows und Linux.
-Starte den Workflow manuell auf GitHub unter **Actions → release → Run workflow**: Standardmäßig werden nur die Installationspakete (Artifacts) hochgeladen; wenn du `draft` ankreuzt, wird zusätzlich ein **Entwurfs-Release** angelegt, das du nach der Prüfung manuell im Web veröffentlichst.
-
-### Weitere Prüfungen
-
-```bash
-scripts/verify-readonly.sh        # statische Prüfung: im Code darf kein Aufruf vorkommen, der Protokolldaten schreibt oder das Netzwerk verändert
-cd apps/desktop
-pnpm e2e:click                    # echte Mausereignisse → Fake-Canvas, prüft Klickkoordinaten und „null doppelte Klicks“
-pnpm e2e:hud                      # die Info-Ebene verdeckt weder Tisch noch Buttons noch Hand (pixelgenau)
-pnpm design:shots                 # Screenshots aller Zustände der Seitenleiste → test/design-shots/
-pnpm icon                         # App-Icon neu erzeugen (benötigt die macOS-Schrift Songti)
-```
+Details zum Release-Workflow für alle Plattformen sowie zu Tests und Selbstprüfungen stehen in der technischen Doku (Englisch): [Build, Packaging and Release](TECHNICAL.en.md#17-build-packaging-and-release) und [Test Suite](TECHNICAL.en.md#18-test-suite).
 
 ## Projektstruktur
 
