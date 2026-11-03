@@ -1,0 +1,50 @@
+/*
+ * 横幅：转播字幕式。左边一枚盖章的汉字块，右边墨色横条（底边一条强调色）。
+ * 尺寸都用 var(--u)（画面宽 / 16）。点击穿透，约 2 秒后完全透明。扁平：不发光、无粒子。
+ */
+.callout {
+  --acc: var(--wa-take); --on: var(--wa-ink);
+  position: absolute; left: 50%; top: 0; height: calc(var(--u) * 0.56);
+  display: flex; align-items: stretch;
+  transform: translateX(-50%);
+  pointer-events: none; white-space: nowrap;
+  animation: life 2000ms linear both;
+}
+.callout[data-hold] { animation: none; }
+
+.glyph {
+  position: relative; z-index: 1; flex: none; display: grid; place-items: center; width: calc(var(--u) * 0.56);
+  background: var(--acc); color: var(--on); border-radius: 2px 0 0 2px;
+  font-family: var(--font-wa); font-weight: 900; font-size: calc(var(--u) * 0.36); line-height: 1;
+  box-shadow: 0 0 0 2px var(--wa-ink);
+  animation: stamp 340ms cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+.body {
+  position: relative; flex: none; display: flex; flex-direction: column; justify-content: center; gap: calc(var(--u) * 0.02);
+  padding: 0 calc(var(--u) * 0.24) 0 calc(var(--u) * 0.18);
+  background: color-mix(in srgb, var(--wa-sumi) 96%, transparent); border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 0 2px var(--wa-ink), inset 0 calc(var(--u) * -0.035) 0 var(--acc);
+  animation: wipe 320ms cubic-bezier(0.2, 0.9, 0.3, 1) 90ms both;
+}
+.big {
+  display: inline-flex; align-items: baseline; gap: calc(var(--u) * 0.1);
+  font-family: var(--font-wa); font-size: calc(var(--u) * 0.22); line-height: 1.15; font-weight: 900; letter-spacing: 0.06em;
+  color: var(--wa-kinari);
+}
+.badge { font-family: var(--font-sans); font-size: 1.05em; font-weight: 900; color: var(--wa-kin); animation: stamp 300ms cubic-bezier(0.3, 1.6, 0.5, 1) 260ms both; }
+.sub { display: inline-flex; align-items: center; gap: calc(var(--u) * 0.06); font-size: max(11px, calc(var(--u) * 0.13)); color: var(--wa-nezumi); }
+.sub em { font-style: normal; font-weight: 750; color: var(--wa-shu); margin-left: calc(var(--u) * 0.04); }
+
+.callout[data-k='miss'] .body { animation: wipe 320ms cubic-bezier(0.2, 0.9, 0.3, 1) 90ms both, shake 360ms ease-in-out 380ms; }
+/* 对手立直：汉字块在朱底 / 白底之间闪三下，像警示灯 */
+.callout[data-k='riichi'] .glyph { animation: stamp 340ms cubic-bezier(0.3, 1.5, 0.5, 1) both, flash 220ms steps(1, end) 360ms 4 alternate; }
+
+@keyframes life { 0% { opacity: 0; } 6% { opacity: 1; } 88% { opacity: 1; transform: translateX(-50%); } 100% { opacity: 0; transform: translateX(-50%) translateY(calc(var(--u) * -0.08)); } }
+@keyframes stamp { 0% { opacity: 0; transform: scale(1.7); } 60% { opacity: 1; transform: scale(0.94); } 100% { opacity: 1; transform: none; } }
+@keyframes wipe { from { clip-path: inset(-4px 100% -4px -4px); } to { clip-path: inset(-4px -4px -4px -4px); } }
+@keyframes shake { 0%, 100% { transform: none; } 25% { transform: translateX(calc(var(--u) * -0.06)); } 50% { transform: translateX(calc(var(--u) * 0.05)); } 75% { transform: translateX(calc(var(--u) * -0.03)); } }
+@keyframes flash { 0% { background: var(--wa-paper); color: var(--wa-shu); } 100% { background: var(--wa-shu); color: var(--wa-paper); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .callout, .callout * { animation: none !important; }
+}

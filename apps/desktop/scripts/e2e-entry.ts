@@ -1,0 +1,5 @@
+export { ClickExecutor } from '../src/main/click-executor'
+export { stepToPoint } from '../src/shared/ui-map'
+export { FrameTap } from '../src/main/frame-tap'
+export { KEEP_CLEAR, ZONES } from '../src/renderer/hud/zones'
+export { fitGame } from '../src/shared/layout-fit'

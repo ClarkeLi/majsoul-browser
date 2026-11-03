@@ -1,0 +1,12 @@
+.seg {
+  display: inline-flex; height: 28px; padding: 2px; gap: 2px; border-radius: var(--r-sm);
+  background: var(--bg-2); border: 1px solid var(--line); -webkit-app-region: no-drag;
+}
+.item {
+  min-width: 40px; padding: 0 var(--sp-3); border: 0; border-radius: 4px; background: transparent;
+  color: var(--text-2); font-size: var(--fs-sm); font-weight: 500;
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.item:hover { color: var(--text-1); }
+.active { background: var(--bg-3); color: var(--text-1); }
+.activeGold { background: var(--gold); color: var(--on-gold); }

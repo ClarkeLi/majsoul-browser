@@ -1,0 +1,23 @@
+.wrap { display: flex; flex-direction: column; gap: var(--sp-2); }
+.bar { display: grid; grid-template-columns: 1fr 2px 1fr; align-items: center; height: 18px; }
+.l, .r { position: relative; height: 10px; background: var(--bg-3); }
+.l { border-radius: var(--r-pill) 0 0 var(--r-pill); }
+.r { border-radius: 0 var(--r-pill) var(--r-pill) 0; }
+.l i, .r i { position: absolute; top: 0; bottom: 0; transition: width 300ms ease; }
+.l i { right: 0; background: var(--red); border-radius: var(--r-pill) 0 0 var(--r-pill); }
+.r i { left: 0; background: var(--jade); border-radius: 0 var(--r-pill) var(--r-pill) 0; }
+/* 未听牌的估算收益：同色斜纹，表示“估的” */
+.r i[data-est] { background: repeating-linear-gradient(-45deg, var(--jade) 0 5px, color-mix(in srgb, var(--jade) 62%, transparent) 5px 8px); }
+.mid { height: 18px; background: var(--text-1); border-radius: 1px; }
+.legend { display: flex; justify-content: space-between; align-items: baseline; font-size: var(--fs-xs); color: var(--text-2); }
+.legend b { font-weight: 700; color: var(--text-1); }
+.legend b[data-tone='loss'] { color: var(--red); }
+.legend b[data-tone='gain'] { color: var(--jade); }
+.net b { font-size: var(--fs-sm); }
+.net[data-sign='pos'] b { color: var(--jade); }
+.net[data-sign='neg'] b { color: var(--red); }
+.parts { display: flex; flex-wrap: wrap; gap: var(--sp-1); }
+.part { display: inline-flex; align-items: baseline; gap: 4px; padding: 1px var(--sp-2); border-radius: var(--r-pill); background: var(--bg-3); font-size: var(--fs-xs); color: var(--text-2); }
+.part b { color: var(--text-1); font-weight: 600; }
+.part i { font-style: normal; color: var(--red); }
+.note { margin: 0; font-size: var(--fs-xs); line-height: 1.5; color: var(--text-2); }

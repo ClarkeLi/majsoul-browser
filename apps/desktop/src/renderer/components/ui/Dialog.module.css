@@ -1,0 +1,5 @@
+.scrim { position: absolute; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center; background: var(--scrim); padding: var(--sp-4); }
+.dialog { width: 100%; max-width: 360px; background: var(--bg-2); border-radius: var(--r-lg); box-shadow: var(--shadow-pop); padding: var(--sp-5); }
+.title { margin: 0 0 var(--sp-3); font-size: var(--fs-md); line-height: var(--lh-md); font-weight: 600; }
+.body { color: var(--text-2); }
+.actions { display: flex; justify-content: flex-end; gap: var(--sp-2); margin-top: var(--sp-5); }

@@ -1,0 +1,2 @@
+.banner { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); padding: var(--sp-2) var(--sp-3); border-radius: var(--r-sm); border: 1px solid var(--amber); background: transparent; color: var(--amber); }
+.text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

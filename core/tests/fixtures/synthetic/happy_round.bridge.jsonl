@@ -1,0 +1,143 @@
+{"method": ".lq.Lobby.login", "name": null, "data": {"account_id": 10001}}
+{"method": ".lq.FastTest.authGame", "name": null, "data": {"game_uuid": "synthetic-happy-round", "seat_list": [20001, 10001, 20003, 20004]}}
+{"method": ".lq.ActionPrototype", "name": "ActionNewRound", "data": {"chang": 0, "ju": 0, "ben": 0, "liqibang": 0, "doras": ["5s"], "tiles": ["3s", "4p", "8s", "7z", "1z", "8p", "3p", "9p", "6p", "6z", "9m", "2m", "1m"], "scores": [25000, 25000, 25000, 25000], "left_tile_count": 70}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "5s", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "4z", "left_tile_count": 68}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "3s", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 67}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "6p", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 66}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "2s", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 65}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "6m", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "3s", "left_tile_count": 64}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "3s", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 63}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "9p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 62}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "9s", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 61}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "6s", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "7p", "left_tile_count": 60}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "4p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 59}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "6z", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 58}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "5p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 57}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "8p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "4s", "left_tile_count": 56}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "4s", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 55}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "3m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 54}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "1p", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 53}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "7z", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "4p", "left_tile_count": 52}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "4p", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 51}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "8s", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 50}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "5m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 49}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "2p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "9p", "left_tile_count": 48}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "9p", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 47}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "9m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 46}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "3z", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 45}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "4m", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "3z", "left_tile_count": 44}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "3z", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 43}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "4p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 42}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "1s", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 41}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "1p", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "7m", "left_tile_count": 40}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "1z", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 39}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "8m", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 38}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "4m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 37}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "6m", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "2s", "left_tile_count": 36}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "9p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 35}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "8p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 34}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "3z", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 33}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "8s", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "1m", "left_tile_count": 32}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "1m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 31}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "4m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 30}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "2p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 29}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "9m", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "1m", "left_tile_count": 28}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "3p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 27}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "5m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 26}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "8p", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 25}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "8m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "3m", "left_tile_count": 24}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "7m", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 23}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "8s", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 22}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "4z", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 21}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "4s", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "7s", "left_tile_count": 20}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "8s", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 19}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "0m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 18}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "2z", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 17}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "7m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "6s", "left_tile_count": 16}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "8p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 15}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "2m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 14}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "7p", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 13}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "1p", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "4m", "left_tile_count": 12}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "4m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 11}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "3m", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 10}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "0p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 9}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "4z", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "2m", "left_tile_count": 8}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "7p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 7}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "2z", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 6}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "4s", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 5}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "3p", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "5z", "left_tile_count": 4}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "5z", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 2, "tile": "", "left_tile_count": 3}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 2, "tile": "2s", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 3, "tile": "", "left_tile_count": 2}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 3, "tile": "5m", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 0, "tile": "", "left_tile_count": 1}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 0, "tile": "7s", "moqie": false, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionDealTile", "data": {"seat": 1, "tile": "0s", "left_tile_count": 0}}
+{"method": ".lq.ActionPrototype", "name": "ActionDiscardTile", "data": {"seat": 1, "tile": "0s", "moqie": true, "is_liqi": false}}
+{"method": ".lq.ActionPrototype", "name": "ActionNoTile", "data": {"liujumanguan": false, "players": [{"tingpai": false}, {"tingpai": false}, {"tingpai": false}, {"tingpai": false}]}}

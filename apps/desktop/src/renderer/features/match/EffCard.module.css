@@ -1,0 +1,26 @@
+.table { display: flex; flex-direction: column; gap: 2px; container-type: inline-size; }
+.empty { color: var(--text-2); }
+.item { position: relative; border-radius: var(--r-sm); }
+.item[data-top]::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 2px; border-radius: 2px; background: var(--gold); }
+.row { display: grid; grid-template-columns: 26px minmax(0, 1fr) 84px 52px 36px; align-items: center; gap: var(--sp-2); width: 100%; min-height: 32px; padding: 0 var(--sp-2) 0 var(--sp-3); border: 0; background: transparent; text-align: left; border-radius: var(--r-sm); }
+button.row:hover:not(:disabled) { background: var(--bg-3); }
+button.row:disabled { cursor: default; color: inherit; }
+.hd { min-height: 20px; color: var(--text-2); font-size: var(--fs-xs); }
+.r { text-align: right; white-space: nowrap; }
+.tile { display: flex; justify-content: center; }
+.name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item[data-top] .name { font-weight: 600; }
+.p { display: grid; grid-template-columns: 1fr 32px; align-items: center; gap: var(--sp-1); }
+.p b { font-size: var(--fs-xs); font-weight: 500; color: var(--text-2); text-align: right; }
+.sh { font-size: var(--fs-xs); color: var(--text-2); }
+.sh[data-tenpai] { color: var(--jade); font-weight: 600; }
+.uk { display: flex; flex-wrap: wrap; gap: 6px 8px; padding: var(--sp-2) var(--sp-3) var(--sp-2) 38px; }
+.ut { display: inline-flex; align-items: flex-end; gap: 2px; }
+.ut em { font-style: normal; font-size: var(--fs-xs); line-height: 1; color: var(--text-2); }
+
+/* 窄侧栏（340）：收紧列宽并隐藏百分比文字，保证牌名不被截断 */
+@container (max-width: 300px) {
+  .row { grid-template-columns: 24px minmax(0, 1fr) 40px 44px 28px; gap: var(--sp-1); padding-left: var(--sp-2); }
+  .p { grid-template-columns: 1fr; }
+  .p b { display: none; }
+}

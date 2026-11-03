@@ -1,0 +1,44 @@
+.wrap { display: flex; flex-direction: column; gap: var(--sp-3); }
+
+/* 待牌打点表 */
+.table { display: grid; column-gap: var(--sp-2); row-gap: 2px; align-items: center; }
+.th { font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--text-2); padding-bottom: var(--sp-1); white-space: nowrap; }
+.th[data-riichi] { color: var(--gold); }
+.row { display: grid; grid-template-columns: subgrid; align-items: center; padding: var(--sp-1) 0; border-top: 1px solid var(--line); }
+.wt { display: inline-flex; align-items: center; gap: var(--sp-1); }
+.wt i { font-style: normal; font-size: var(--fs-xs); color: var(--text-2); }
+.cell { display: flex; flex-direction: column; gap: 0; min-width: 0; cursor: help; }
+.cell b { font-size: var(--fs-base); line-height: var(--lh-sm); font-weight: 650; }
+.cell i { font-style: normal; font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--text-2); white-space: nowrap; }
+.cell .pay { color: var(--text-2); opacity: 0.8; }
+.noYaku { font-size: var(--fs-xs); color: var(--red); font-weight: 600; }
+
+/* 役种 */
+.yaku { display: flex; flex-wrap: wrap; gap: var(--sp-1); align-items: center; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 1px var(--sp-2); border-radius: var(--r-pill); font-size: var(--fs-xs); line-height: 18px; background: var(--gold-weak); color: var(--text-1); border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent); }
+.chip b { font-weight: 700; color: var(--gold); }
+.chip[data-dora] { background: var(--bg-3); border-color: var(--line); }
+.chip[data-dora] b { color: var(--text-2); }
+.total { margin-left: auto; font-size: var(--fs-sm); font-weight: 650; }
+
+/* 默听 vs 立直 */
+.cmp { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2); }
+.cmp[data-single] { grid-template-columns: 1fr; }
+.opt { display: flex; flex-direction: column; gap: 6px; padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md); background: var(--bg-3); border: 1px solid var(--line); }
+.opt[data-best] { border-color: color-mix(in srgb, var(--gold) 55%, transparent); background: color-mix(in srgb, var(--gold) 7%, var(--bg-3)); box-shadow: var(--glow-gold); }
+.optHead { display: flex; align-items: center; gap: var(--sp-2); }
+.optName { font-weight: 700; font-size: var(--fs-sm); }
+.badge { margin-left: auto; font-size: var(--fs-xs); line-height: 16px; font-weight: 700; padding: 0 6px; border-radius: var(--r-sm); background: var(--gold); color: var(--on-gold); }
+.kv { display: flex; justify-content: space-between; font-size: var(--fs-xs); color: var(--text-2); }
+.kv b { color: var(--text-1); font-weight: 650; }
+.kv .ev { font-size: var(--fs-sm); }
+.meter { display: block; height: 5px; border-radius: var(--r-pill); background: var(--bg-1); overflow: hidden; }
+.meter i { display: block; height: 100%; border-radius: var(--r-pill); background: var(--text-2); transition: width 300ms ease; }
+.opt[data-best] .meter i { background: var(--gold); }
+.meter[data-ev] i { background: var(--jade); }
+.opt[data-best] .meter[data-ev] i { background: var(--gold); }
+
+.note { display: flex; flex-direction: column; gap: var(--sp-1); font-size: var(--fs-xs); line-height: 1.55; color: var(--text-2); }
+.note p { margin: 0; }
+.warn b { color: var(--amber); margin-right: var(--sp-1); }
+.model { color: var(--text-2); opacity: 0.8; }

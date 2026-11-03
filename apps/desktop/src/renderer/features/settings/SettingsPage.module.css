@@ -1,0 +1,29 @@
+.page { display: flex; flex-direction: column; }
+.group { margin: var(--sp-6) 0 var(--sp-2); font-size: var(--fs-sm); line-height: var(--lh-sm); font-weight: 600; color: var(--text-2); letter-spacing: 0.04em; }
+.group:first-child { margin-top: 0; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); min-height: 48px; padding: var(--sp-2) 0; border-bottom: 1px solid var(--line); }
+.text { min-width: 0; }
+.label { font-size: var(--fs-base); }
+.desc { font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--text-2); margin-top: 2px; }
+.ctl { flex: none; }
+.value { color: var(--text-2); font-size: var(--fs-sm); }
+
+/* 打牌风格面板 */
+.style { container-type: inline-size; margin: var(--sp-2) 0; padding: var(--sp-3) var(--sp-4); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--bg-2); box-shadow: var(--shadow-card-inset); display: flex; flex-direction: column; gap: var(--sp-2); transition: border-color 160ms ease; }
+.style[data-on] { border-color: color-mix(in srgb, var(--gold) 45%, var(--line)); }
+.styleHead { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-3); }
+.styleHead > button, .partHead > button { flex: none; }
+.styleTitle { font-size: var(--fs-md); line-height: var(--lh-md); font-weight: 650; }
+.agree { display: grid; grid-template-columns: auto 1fr 52px; align-items: center; gap: var(--sp-2); font-size: var(--fs-xs); color: var(--text-2); margin-top: var(--sp-1); }
+.agree b { text-align: right; color: var(--text-1); font-weight: 650; font-size: var(--fs-sm); }
+.agreeTrack { display: block; height: 6px; border-radius: var(--r-pill); background: var(--bg-3); overflow: hidden; }
+.agreeFill { display: block; height: 100%; border-radius: var(--r-pill); background: var(--gold); transition: width 240ms ease; }
+.agreeNote { font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--text-2); }
+.parts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-2); margin-top: var(--sp-1); }
+.parts[aria-disabled] { opacity: 0.45; pointer-events: none; }
+.part { padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md); background: var(--bg-1); border: 1px solid var(--line); display: flex; flex-direction: column; gap: var(--sp-1); }
+.part[data-active] { border-color: color-mix(in srgb, var(--gold) 35%, var(--line)); background: color-mix(in srgb, var(--gold) 5%, var(--bg-1)); }
+.partHead { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+.partName { font-size: var(--fs-sm); font-weight: 600; }
+.partDesc { font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--text-2); }
+@container (max-width: 560px) { .parts { grid-template-columns: 1fr; } }

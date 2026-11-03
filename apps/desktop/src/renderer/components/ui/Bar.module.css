@@ -1,0 +1,7 @@
+.track { display: block; width: 100%; background: var(--bg-3); border-radius: var(--r-pill); overflow: hidden; }
+.fill { display: block; height: 100%; border-radius: var(--r-pill); background: var(--gold); }
+.fill[data-tone='risk-0'] { background: var(--risk-0); }
+.fill[data-tone='risk-1'] { background: var(--risk-1); }
+.fill[data-tone='risk-2'] { background: var(--risk-2); }
+.fill[data-tone='risk-3'] { background: var(--risk-3); }
+.fill[data-tone='risk-4'] { background: var(--risk-4); }

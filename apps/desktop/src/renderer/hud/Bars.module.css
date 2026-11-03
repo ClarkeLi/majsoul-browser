@@ -1,0 +1,111 @@
+/*
+ * 上/下信息栏：占用画面之外的黑边，不挡游戏。尺寸用 px（栏高）而不是 u。
+ * 「和・卓上」：墨色实底、细线分格；风位是方块汉字（亲 = 朱底），立直的人画一根点棒，名次是实色圆章。
+ */
+.top, .bottom {
+  position: absolute; left: 0; right: 0; display: flex; align-items: center; gap: 14px; padding: 0 16px; box-sizing: border-box;
+  color: var(--wa-kinari); font-size: 12px; line-height: 1.3; overflow: hidden; pointer-events: auto;
+  background: var(--wa-sumi);
+}
+.top { top: 0; gap: 12px; border-bottom: 1px solid var(--wa-rule); }
+.bottom { bottom: 0; align-items: stretch; padding: 6px 12px 6px 16px; gap: 12px; border-top: 1px solid var(--wa-rule); }
+/* 有人立直：贴着画面的那条边换成朱线 */
+.top[data-danger] { border-bottom: 2px solid var(--wa-shu); }
+.bottom[data-danger] { border-top: 2px solid var(--wa-shu); }
+.muted { color: var(--wa-nezumi); align-self: center; line-height: 1.5; }
+
+/* ---------------------------------------------------------------- 上栏 */
+.round { font-family: var(--font-wa); font-size: 15px; font-weight: 900; letter-spacing: 0.1em; white-space: nowrap; }
+.meta { display: inline-flex; align-items: center; color: var(--wa-nezumi); white-space: nowrap; }
+.meta > span { padding: 0 8px; line-height: 1.5; }
+.meta > span + span { border-left: 1px solid var(--wa-rule); }
+.meta > span[data-danger] {
+  margin-right: 6px; padding: 0 7px; border-radius: 2px; border: none;
+  color: var(--wa-paper); background: var(--wa-shu); font-weight: 800; letter-spacing: 0.06em;
+  animation: pop 300ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+.meta > span[data-danger] + span { border-left: none; }
+.meta > span[data-al] { color: var(--wa-kin); font-weight: 700; }
+
+.place { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; padding-left: 12px; border-left: 1px solid var(--wa-rule); }
+.place > b {
+  display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+  font-size: 13px; font-weight: 900; color: var(--wa-ink); background: var(--wa-kinari);
+  animation: pop 320ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+.place[data-rank='1'] > b { background: var(--wa-kin); }
+.place[data-rank='3'] > b { background: var(--wa-nezumi); }
+.place[data-rank='4'] > b { color: var(--wa-paper); background: var(--wa-shu); }
+.pRank { color: var(--wa-nezumi); }
+.up { color: var(--wa-kin); } .down { color: var(--wa-take); }
+.note { flex: 1; min-width: 0; color: var(--wa-kinari); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.scores { margin-left: auto; display: inline-flex; align-items: stretch; align-self: stretch; min-width: 0; flex: none; }
+.sc { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border-left: 1px solid var(--wa-rule); white-space: nowrap; }
+.sc[data-me] { background: color-mix(in srgb, var(--wa-take) 13%, transparent); box-shadow: inset 0 -2px 0 var(--wa-take); }
+/* 风位方块 */
+.sc b { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 2px; font-family: var(--font-wa); font-size: 12px; font-weight: 900; background: var(--wa-sumi-2); }
+.sc b[data-oya] { color: var(--wa-paper); background: var(--wa-shu); }
+.sc i { font-style: normal; color: var(--wa-nezumi); font-size: 11px; }
+.sc > span { font-weight: 700; }
+.sc em { font-style: normal; color: var(--wa-nezumi); font-size: 11px; }
+.sc u { text-decoration: none; font-size: 10px; color: var(--wa-nezumi); border: 1px solid var(--wa-rule); border-radius: 2px; padding: 0 4px; line-height: 1.4; }
+/* 立直：一根千点棒（白棒、中间一个朱点） */
+.sc[data-riichi]::after {
+  content: ''; position: absolute; left: 50%; top: 3px; width: 26px; height: 4px; margin-left: -13px; border-radius: 2px;
+  background: radial-gradient(circle at center, var(--wa-shu) 0 1.5px, transparent 2px), var(--wa-paper);
+  box-shadow: 0 0 0 1px var(--wa-ink);
+  animation: pop 320ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+
+/* ---------------------------------------------------------------- 下栏：左手牌分组，右押引 */
+.hand { flex: 1; min-width: 0; display: flex; gap: 16px; align-items: flex-start; }
+.summary { flex: none; display: flex; flex-direction: column; gap: 3px; min-width: 92px; padding-right: 14px; border-right: 1px solid var(--wa-rule); align-self: stretch; }
+.sTitle { font-size: 11px; color: var(--wa-nezumi); white-space: nowrap; }
+.sShanten { font-family: var(--font-wa); font-size: 19px; line-height: 1.1; font-weight: 900; letter-spacing: 0.06em; white-space: nowrap; }
+.sShanten[data-tenpai] { color: var(--wa-take); font-size: 21px; animation: pop 320ms cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+.sTotal { font-size: 12px; color: var(--wa-kinari); white-space: nowrap; }
+.form { font-size: 11px; color: var(--wa-kin); white-space: nowrap; }
+
+.groups {
+  flex: 1; min-width: 0; display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 6px; max-height: 100%; overflow: hidden;
+  /* 一行放不下时右侧淡出，而不是露出被截半截的第二行 */
+  mask-image: linear-gradient(to right, black calc(100% - 28px), transparent);
+}
+.groups > * { flex: none; }
+/* 每组一个格子，顶边一条色线表示状态：成了 = 青竹，搭子在等 = 山吹，雀头 = 藍，孤张 = 灰 */
+.chip { display: flex; flex-direction: column; gap: 3px; padding: 4px 6px 4px; border-radius: 2px; background: var(--wa-sumi-2); box-shadow: inset 0 2px 0 var(--wa-rule); }
+.chip[data-done] { box-shadow: inset 0 2px 0 var(--wa-take); }
+.chip[data-kind='head'] { box-shadow: inset 0 2px 0 var(--wa-ai); }
+.chip[data-kind='ryanmen'], .chip[data-kind='kanchan'], .chip[data-kind='penchan'], .chip[data-kind='pair'] { box-shadow: inset 0 2px 0 var(--wa-kin); }
+.chip[data-kind='isolated'] { opacity: 0.7; }
+.chip[data-kind='uk'] { background: transparent; box-shadow: inset 0 0 0 1px var(--wa-rule); }
+.ct { display: inline-flex; gap: 1px; }
+.cl { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--wa-nezumi); white-space: nowrap; }
+.cl b { color: var(--wa-kinari); font-weight: 650; }
+.cl em { font-style: normal; color: var(--wa-nezumi); }
+.ukTiles { display: inline-flex; gap: 4px; }
+.ukt { display: inline-flex; align-items: flex-end; gap: 1px; } .ukt em { font-style: normal; font-size: 10px; line-height: 1; color: var(--wa-nezumi); }
+
+/* 副露：横放的牌（被鸣的那张）与加杠叠放 */
+.meld { display: inline-flex; align-items: flex-end; gap: 1px; }
+.side { display: inline-flex; flex-direction: column; justify-content: flex-end; }
+.rot { position: relative; display: block; }
+.rot > span { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-90deg); }
+.chip[data-kind='meld'] { background: transparent; box-shadow: inset 0 0 0 1px var(--wa-rule), inset 0 2px 0 var(--wa-nezumi); }
+
+/* 听牌：每张待牌的打点 */
+.chip[data-kind='value'] { flex-direction: row; align-items: center; gap: 6px; background: color-mix(in srgb, var(--wa-take) 10%, var(--wa-sumi-2)); box-shadow: inset 0 2px 0 var(--wa-take); }
+.chip[data-kind='value'][data-noyaku] { background: color-mix(in srgb, var(--wa-shu) 9%, var(--wa-sumi-2)); box-shadow: inset 0 2px 0 var(--wa-shu); }
+.vHead { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.vHead em { font-style: normal; font-size: 10px; color: var(--wa-nezumi); }
+.vBody { display: flex; flex-direction: column; gap: 1px; }
+.vRow { display: flex; align-items: baseline; gap: 4px; font-size: 11px; white-space: nowrap; color: var(--wa-kinari); }
+.vRow i { font-style: normal; color: var(--wa-nezumi); font-size: 10px; min-width: 1.2em; }
+.vRow b { font-weight: 800; color: var(--wa-take); }
+.vRow[data-riichi] span { color: var(--wa-kin); }
+.noYaku { color: var(--wa-shu) !important; }
+.vYaku { font-size: 10px; color: var(--wa-nezumi); max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@keyframes pop { 0% { opacity: 0; transform: scale(1.6); } 65% { opacity: 1; transform: scale(0.95); } 100% { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .top *, .bottom *, .sc::after { animation: none !important; } }

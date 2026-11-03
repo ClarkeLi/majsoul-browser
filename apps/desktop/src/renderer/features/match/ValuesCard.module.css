@@ -1,0 +1,27 @@
+.wrap { display: flex; flex-direction: column; gap: 2px; }
+.head, .row { display: grid; grid-template-columns: 92px 1fr 58px; column-gap: var(--sp-2); align-items: center; }
+.head { grid-template-columns: 92px 1fr 1fr 58px; font-size: var(--fs-xs); color: var(--text-2); padding: 0 var(--sp-2) var(--sp-1); }
+.head span:nth-child(2) { text-align: left; }
+.head span:nth-child(3) { text-align: right; }
+.head span:last-child { text-align: right; }
+.row { grid-template-areas: 'who bar net' 'who sub net'; padding: 5px var(--sp-2); border-radius: var(--r-sm); row-gap: 2px; }
+.row[data-pick] { background: var(--gold-weak); box-shadow: inset 2px 0 0 var(--gold); }
+.who { grid-area: who; display: flex; align-items: center; gap: 6px; min-width: 0; }
+.riichi { font-size: var(--fs-xs); font-weight: 700; color: var(--gold); }
+.p { display: flex; flex-direction: column; font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--text-2); }
+.tag { font-size: 10px; line-height: 14px; font-weight: 700; color: var(--text-1); }
+.tag[data-pick] { color: var(--gold); }
+.bar { grid-area: bar; display: grid; grid-template-columns: 1fr 2px 1fr; align-items: center; height: 12px; }
+.l, .r { position: relative; height: 7px; background: var(--bg-3); }
+.l { border-radius: var(--r-pill) 0 0 var(--r-pill); }
+.r { border-radius: 0 var(--r-pill) var(--r-pill) 0; }
+.l i, .r i { position: absolute; top: 0; bottom: 0; transition: width 300ms ease; }
+.l i { right: 0; background: var(--red); border-radius: var(--r-pill) 0 0 var(--r-pill); }
+.r i { left: 0; background: var(--jade); border-radius: 0 var(--r-pill) var(--r-pill) 0; }
+.mid { height: 12px; background: var(--line-strong); }
+.sub { grid-area: sub; font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--text-2); }
+.net { grid-area: net; text-align: right; font-size: var(--fs-sm); font-weight: 700; }
+.net[data-sign='pos'] { color: var(--jade); }
+.net[data-sign='neg'] { color: var(--red); }
+.row[data-best] .net { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.hint { margin: var(--sp-1) 0 0; font-size: var(--fs-xs); line-height: 1.5; color: var(--text-2); }

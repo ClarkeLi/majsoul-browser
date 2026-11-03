@@ -1,0 +1,21 @@
+.bar { position: relative; height: var(--topbar-h); display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); padding-right: var(--sp-4); background: var(--bg-1); border-bottom: 1px solid var(--line); -webkit-app-region: drag; }
+/* 自动模式开启：顶栏底部 2px 金线，是全局唯一的“现在由机器操作”信号 */
+.bar[data-mode='auto']::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--gold); }
+.left { display: flex; align-items: center; gap: var(--sp-4); min-width: 0; }
+.app { font-size: var(--fs-sm); color: var(--text-2); font-weight: 500; white-space: nowrap; }
+.conn { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.jade { background: var(--jade); }
+.amber { background: var(--amber); }
+.gray { background: var(--text-3); }
+.right { display: flex; align-items: center; gap: var(--sp-3); flex: none; }
+.model { font-size: var(--fs-xs); color: var(--text-2); white-space: nowrap; }
+.hotkey { margin-left: var(--sp-2); font-size: var(--fs-xs); opacity: 0.85; }
+
+/* 自动匹配开关：开启后显示当前进度（自动模式下才工作） */
+.am { -webkit-app-region: no-drag; display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 10px; border-radius: var(--r-sm); border: 1px solid var(--line); background: transparent; color: var(--text-2); font: inherit; font-size: var(--fs-xs); cursor: pointer; white-space: nowrap; }
+.am:hover { color: var(--text-1); border-color: var(--line-strong); }
+.am[data-on] { color: var(--gold); border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); background: var(--gold-weak); }
+.am em { font-style: normal; color: var(--text-2); padding-left: 6px; border-left: 1px solid var(--line); }
+.am[data-status='stuck'] em { color: var(--red); }
+.am[data-status='scanning'] em, .am[data-status='joining'] em, .am[data-status='waiting'] em, .am[data-status='queued'] em { color: var(--gold); }

@@ -1,0 +1,38 @@
+/*
+ * 信息层卡片的外壳（决策卡、对手卡共用）。「和・卓上」：墨色实底 + 顶部一条动作色的帯（obi）+ 细边。
+ * 标题行左边是一块实色的汉字徽章（打 / 立 / 鳴 / 守…），右边是小字标题与状态。
+ * 不发光、不渐变；所有装饰都画在卡片内部，不往外溢（e2e:hud 逐像素检查不能压到牌桌和按钮）。
+ */
+.card {
+  --acc: var(--wa-take);
+  position: relative; box-sizing: border-box; width: 100%;
+  display: flex; flex-direction: column; gap: 0.45em;
+  padding: 0.45em 0.65em 0.5em; font-size: 0.9em;
+  border-radius: calc(var(--u) * 0.05);
+  background: color-mix(in srgb, var(--wa-sumi) 95%, transparent);
+  border: 1px solid var(--wa-rule);
+  border-top: calc(var(--u) * 0.04) solid var(--acc);
+  pointer-events: auto;
+  transition: width 200ms var(--ease), border-color 200ms var(--ease);
+}
+.card[data-stale] { opacity: 0.6; }
+.card:hover { opacity: 1; z-index: 5; }
+
+.head {
+  display: flex; align-items: center; gap: 0.45em; min-width: 0;
+  padding-bottom: 0.3em; border-bottom: 1px solid var(--wa-rule);
+}
+/* 汉字徽章：实色方块，墨色明朝体 */
+.badge {
+  flex: none; display: grid; place-items: center; width: 1.45em; height: 1.45em; border-radius: 2px;
+  background: var(--acc); color: var(--wa-ink);
+  font-family: var(--font-wa); font-weight: 900; font-size: 0.92em; line-height: 1;
+  animation: badgeIn 260ms cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+.eyebrow {
+  flex: 1; min-width: 0; font-size: 0.76em; font-weight: 700; letter-spacing: 0.12em; color: var(--wa-nezumi);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+@keyframes badgeIn { from { opacity: 0; transform: scale(1.5); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .badge { animation: none; } }

@@ -1,0 +1,111 @@
+/* 设计 token（PLAN §8.2–§8.4）。组件里禁止直接写十六进制颜色，只能用 var(--…)。 */
+:root,
+[data-theme='dark'] {
+  --bg-0: #0e1116;
+  --bg-1: #151a21;
+  --bg-2: #1c222b;
+  --bg-3: #252c37;
+  --line: #2a313c;
+  --line-strong: #3a4350;
+  --text-1: #ece7de;
+  --text-2: #a9a397;
+  --text-3: #6e6a62; /* 仅用于禁用状态和占位符，不能承载信息 */
+  --gold: #d4a857;
+  --gold-weak: rgba(212, 168, 87, 0.14);
+  --on-gold: #14110b;
+  --jade: #4cb782;
+  --amber: #e08a3c;
+  --red: #e5484d;
+  --on-red: #ffffff;
+  --blue: #5b9bd5;
+  --risk-0: #4cb782;
+  --risk-1: #9dba5e;
+  --risk-2: #e0b13c;
+  --risk-3: #e07a3c;
+  --risk-4: #e5484d;
+  --shadow-card-inset: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--line);
+  --glow-gold: 0 6px 16px rgba(212, 168, 87, 0.25);
+  --scrim: rgba(7, 9, 12, 0.6);
+  --accent-tint: 16%;
+}
+
+[data-theme='light'] {
+  --bg-0: #f4f1ea;
+  --bg-1: #fbf9f4;
+  --bg-2: #ffffff;
+  --bg-3: #f0ece3;
+  --line: #e4dfd4;
+  --line-strong: #cfc8ba;
+  --text-1: #1f1d1a;
+  --text-2: #5e5a52;
+  --text-3: #8f897e;
+  --gold: #946b1c;
+  --gold-weak: rgba(148, 107, 28, 0.1);
+  --on-gold: #ffffff;
+  --jade: #2e8b62;
+  --amber: #b86a1e;
+  --red: #c8343a;
+  --on-red: #ffffff;
+  --blue: #2f6fae;
+  --risk-0: #43a172;
+  --risk-1: #8aa453;
+  --risk-2: #c59c35;
+  --risk-3: #c56b35;
+  --risk-4: #c93f44;
+  --shadow-card-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --shadow-pop: 0 12px 32px rgba(40, 32, 20, 0.18), 0 0 0 1px var(--line);
+  --glow-gold: 0 6px 16px rgba(148, 107, 28, 0.22);
+  --scrim: rgba(40, 32, 20, 0.35);
+}
+
+:root {
+  /* 字体 */
+  --font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei UI', 'Noto Sans CJK SC', sans-serif;
+  --font-mono: 'JetBrains Mono', 'PingFang SC', 'Microsoft YaHei UI', monospace;
+  --fs-hero: 40px;  --lh-hero: 44px;
+  --fs-xl: 28px;    --lh-xl: 34px;
+  --fs-lg: 20px;    --lh-lg: 28px;
+  --fs-md: 16px;    --lh-md: 24px;
+  --fs-base: 13px;  --lh-base: 20px;
+  --fs-sm: 12px;    --lh-sm: 16px;
+  --fs-xs: 11px;    --lh-xs: 14px;
+
+  /* 间距（4px 网格） */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px;
+
+  /* 圆角 */
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-tile: 4px; --r-pill: 999px;
+
+  /* 动效 */
+  /* 推荐卡按动作类型着色（旧面板的做法）：出牌=翡翠，立直/和牌=金，鸣牌=蓝，过=灰，异常=红 */
+  --act-discard: var(--jade);
+  --act-riichi: var(--gold);
+  --act-call: var(--blue);
+  --act-pass: var(--text-2);
+  --act-warn: var(--red);
+  --t-fast: 120ms; --t-base: 180ms;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* 信息层（画在游戏画面上）专用色：「和・卓上」扁平风格，取日本传统色。不随主题变（卡片底色除外），
+     颜色只承载含义：朱 = 危险 / 立直 / 失误，山吹 = 立直建议 / 一位 / 和了目标，青竹 = 推荐打牌 / 安全 / 进攻，
+     藍 = 鸣牌 / 教学，紅 = 和牌。 */
+  --wa-sumi: #15171c;      /* 墨：卡片底 */
+  --wa-sumi-2: #20232a;    /* 墨（浅）：卡片内的格子、标签底 */
+  --wa-kinari: #f3eee1;    /* 生成り：主文字 */
+  --wa-nezumi: #a8a294;    /* 利休鼠：次要文字 */
+  --wa-rule: rgba(243, 238, 225, 0.13); /* 细分隔线 */
+  --wa-shu: #e5492f;       /* 朱 */
+  --wa-kin: #f0b43a;       /* 山吹 */
+  --wa-take: #3fb27b;      /* 青竹 */
+  --wa-ai: #4f8fd0;        /* 藍（偏縹，深底上可读） */
+  --wa-beni: #e33f62;      /* 紅 */
+  --wa-ink: #0b0c0f;       /* 画在奶白牌面上的描边；实色块上的深色字 */
+  --wa-paper: #fff7e8;     /* 朱 / 紅实色块上的浅色字 */
+  --font-wa: 'Songti SC', 'Noto Serif SC', 'Noto Serif CJK SC', 'Source Han Serif SC', 'Hiragino Mincho ProN', 'Yu Mincho', 'STSong', 'SimSun', serif;
+
+  /* 布局 */
+  --topbar-h: 44px; --statusbar-h: 24px; --rail-w: 56px;
+  --traffic-light-w: 78px;
+}

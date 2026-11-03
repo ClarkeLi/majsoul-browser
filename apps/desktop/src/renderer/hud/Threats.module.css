@@ -1,0 +1,72 @@
+/* 对手卡：外壳来自 Panel.module.css。每家一行，细线分隔；立直的那家左边一条朱线 + 判子。 */
+.card { gap: 0.15em; }
+
+.vtag { flex: none; padding: 0 0.55em; border-radius: 2px; font-size: 0.76em; font-weight: 800; letter-spacing: 0.1em; line-height: 1.6; }
+.vtag[data-advice='push'] { color: var(--wa-ink); background: var(--wa-take); }
+.vtag[data-advice='balance'] { color: var(--wa-ink); background: var(--wa-kin); }
+.vtag[data-advice='fold'] { color: var(--wa-paper); background: var(--wa-shu); }
+
+.row {
+  position: relative; display: flex; flex-direction: column; gap: 0.16em; padding: 0.26em 0.2em 0.3em 0.5em;
+  border-bottom: 1px solid var(--wa-rule);
+  animation: rowIn 260ms var(--ease) both;
+}
+.row:last-of-type { border-bottom: none; }
+.row[data-danger]::before { content: ''; position: absolute; left: 0; top: 0.35em; bottom: 0.35em; width: 2px; background: var(--wa-kin); }
+.row[data-riichi] { background: color-mix(in srgb, var(--wa-shu) 11%, transparent); }
+.row[data-riichi]::before { width: 3px; background: var(--wa-shu); }
+
+.line { display: flex; align-items: center; gap: 0.4em; font-size: 0.86em; min-width: 0; }
+/* 风位：方块里的汉字，亲家朱底 */
+.wd { flex: none; width: 1.5em; height: 1.5em; display: grid; place-items: center; border-radius: 2px; background: var(--wa-sumi-2); color: var(--wa-kinari); font-family: var(--font-wa); font-size: 0.86em; font-weight: 900; }
+.wd[data-oya] { color: var(--wa-paper); background: var(--wa-shu); }
+.who { font-weight: 700; white-space: nowrap; }
+.rank { flex: none; font-size: 0.72em; font-weight: 800; color: var(--wa-nezumi); border: 1px solid var(--wa-rule); border-radius: 2px; padding: 0 0.3em; line-height: 1.35; }
+.rank[data-rank='1'] { color: var(--wa-kin); border-color: var(--wa-kin); }
+.rank[data-rank='4'] { color: var(--wa-shu); border-color: color-mix(in srgb, var(--wa-shu) 60%, transparent); }
+/* 立直判子：朱色实底的印，略歪，盖下来 */
+/* 立直判子：朱色实底的印，略歪，盖下来 */
+.stamp {
+  flex: none; padding: 0.12em 0.4em; font-family: var(--font-wa); font-size: 0.8em; font-weight: 900; letter-spacing: 0.1em; line-height: 1.2;
+  color: var(--wa-paper); background: var(--wa-shu); border-radius: 2px; transform: rotate(-4deg);
+  box-shadow: 0 0 0 1px var(--wa-ink);
+  animation: stamp 320ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+.df { margin-left: auto; color: var(--wa-nezumi); font-size: 0.86em; white-space: nowrap; }
+
+/* 听牌可能：十格，从青竹到朱 */
+.meter { display: flex; align-items: center; gap: 0.5em; }
+.segs { flex: 1; display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; }
+.segs i { height: 0.4em; background: var(--wa-sumi-2); }
+.segs i[data-on] { background: var(--wa-take); animation: segIn 200ms ease-out both; }
+.segs i[data-on][data-band='1'] { background: var(--wa-kin); }
+.segs i[data-on][data-band='2'] { background: var(--wa-shu); }
+.lvl { flex: none; font-size: 0.7em; color: var(--wa-nezumi); white-space: nowrap; min-width: 4.5em; text-align: right; }
+.lvl[data-level='mid'] { color: var(--wa-kin); } .lvl[data-level='high'] { color: var(--wa-shu); font-weight: 800; }
+
+.reason { font-size: 0.72em; color: var(--wa-nezumi); }
+.safe { display: flex; flex-wrap: wrap; gap: 0.25em 0.45em; font-size: 0.72em; }
+.st { display: inline-flex; align-items: center; gap: 0.3em; padding: 0 0.4em 0 0; border-radius: 2px; color: var(--wa-take); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wa-take) 55%, transparent); font-weight: 700; }
+.st[data-why='half_suji'], .st[data-why='honor_seen'] { color: var(--wa-kin); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wa-kin) 55%, transparent); }
+.none { color: var(--wa-shu); font-weight: 700; }
+.long { display: none; }
+.card:hover .long, :global(body[data-expand='1']) .long { display: inline; }
+.card:hover .short, :global(body[data-expand='1']) .short { display: none; }
+
+/* 押引：弃 · 平 · 攻 三格，结论那一格实色 */
+.verdict { display: flex; flex-direction: column; gap: 0.2em; border-top: 1px solid var(--wa-rule); padding-top: 0.35em; font-size: 0.78em; line-height: 1.4; }
+.verdict p { margin: 0; }
+.gauge { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; font-family: var(--font-wa); font-weight: 900; text-align: center; line-height: 1.4; }
+.gauge span { color: var(--wa-nezumi); background: var(--wa-sumi-2); border-radius: 1px; }
+.gauge[data-advice='fold'] span:nth-child(1) { color: var(--wa-paper); background: var(--wa-shu); animation: pop 280ms cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+.gauge[data-advice='balance'] span:nth-child(2) { color: var(--wa-ink); background: var(--wa-kin); animation: pop 280ms cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+.gauge[data-advice='push'] span:nth-child(3) { color: var(--wa-ink); background: var(--wa-take); animation: pop 280ms cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+.desc { font-weight: 750; }
+.verdict[data-advice='push'] .desc { color: var(--wa-take); } .verdict[data-advice='balance'] .desc { color: var(--wa-kin); } .verdict[data-advice='fold'] .desc { color: var(--wa-shu); }
+.basis { color: var(--wa-nezumi); font-size: 0.92em; }
+
+@keyframes rowIn { from { opacity: 0; transform: translateX(4px); } to { opacity: 1; transform: none; } }
+@keyframes segIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes stamp { 0% { opacity: 0; transform: rotate(-4deg) scale(1.8); } 65% { opacity: 1; transform: rotate(-4deg) scale(0.95); } 100% { opacity: 1; transform: rotate(-4deg); } }
+@keyframes pop { 0% { opacity: 0; transform: scale(1.5); } 65% { opacity: 1; transform: scale(0.95); } 100% { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .card *, .card *::before { animation: none !important; } }

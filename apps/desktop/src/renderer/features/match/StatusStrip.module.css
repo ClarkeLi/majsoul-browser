@@ -1,0 +1,10 @@
+.strip { display: flex; flex-direction: column; gap: var(--sp-2); }
+.row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); min-height: 24px; min-width: 0; }
+.kyoku { font-size: var(--fs-md); line-height: var(--lh-md); font-weight: 650; letter-spacing: 0.06em; white-space: nowrap; }
+.chips { order: 3; flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); min-width: 0; font-size: var(--fs-xs); color: var(--text-2); white-space: nowrap; }
+.chips > span { padding: 1px var(--sp-2); border-radius: 6px; background: var(--bg-2); border: 1px solid var(--line); }
+.pill { margin-left: auto; flex: none; }
+.lbl { font-size: var(--fs-xs); color: var(--text-2); }
+.dora { display: inline-flex; gap: var(--sp-3); }
+.pair { display: inline-flex; align-items: center; gap: 3px; }
+.pair i { font-style: normal; color: var(--text-2); font-size: var(--fs-sm); }

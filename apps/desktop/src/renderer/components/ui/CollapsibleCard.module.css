@@ -1,0 +1,11 @@
+.card { background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--shadow-card-inset); min-width: 0; }
+.head { display: flex; align-items: center; gap: var(--sp-2); width: 100%; height: 36px; padding: 0 var(--sp-3); border: 0; background: transparent; text-align: left; border-radius: var(--r-md); }
+.head:hover .title { color: var(--text-1); }
+.ic { width: 18px; height: 18px; flex: none; display: grid; place-items: center; border-radius: 6px; background: var(--bg-3); color: var(--text-2); font-size: var(--fs-xs); font-weight: 600; }
+.title { font-size: var(--fs-sm); line-height: var(--lh-sm); font-weight: 600; color: var(--text-2); letter-spacing: 0.04em; transition: color var(--t-fast) var(--ease); white-space: nowrap; }
+.sub { margin-left: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-xs); color: var(--text-2); }
+.chev { flex: none; color: var(--text-2); transition: transform var(--t-base) var(--ease); }
+.sub + .chev { margin-left: 0; }
+.title + .chev { margin-left: auto; }
+.closed .chev { transform: rotate(-90deg); }
+.body { padding: 0 var(--sp-3) var(--sp-3); display: flex; flex-direction: column; gap: var(--sp-3); }

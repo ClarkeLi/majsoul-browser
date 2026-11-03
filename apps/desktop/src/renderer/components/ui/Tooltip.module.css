@@ -1,0 +1,10 @@
+.wrap { position: relative; display: inline-flex; }
+.tip {
+  position: absolute; left: 50%; transform: translateX(-50%); z-index: 50; pointer-events: none;
+  padding: var(--sp-1) var(--sp-2); border-radius: var(--r-sm); background: var(--bg-3); color: var(--text-1);
+  font-size: var(--fs-xs); line-height: var(--lh-xs); white-space: nowrap; box-shadow: var(--shadow-pop);
+  opacity: 0; transition: opacity var(--t-fast) var(--ease);
+}
+.top { bottom: calc(100% + 6px); }
+.bottom { top: calc(100% + 6px); }
+.wrap:hover .tip, .wrap:focus-within .tip { opacity: 1; }

@@ -1,0 +1,9 @@
+.wrap { display: flex; flex-direction: column; gap: var(--sp-2); }
+.top { display: flex; align-items: center; gap: var(--sp-3); }
+.tag { flex: none; padding: 2px var(--sp-3); border-radius: var(--r-sm); font-size: var(--fs-md); line-height: var(--lh-md); font-weight: 750; letter-spacing: 0.08em; }
+.tag[data-advice='push'] { background: var(--jade); color: var(--on-gold); }
+.tag[data-advice='balance'] { background: var(--amber); color: var(--on-gold); }
+.tag[data-advice='fold'] { background: var(--red); color: var(--on-red); }
+.desc { color: var(--text-2); font-size: var(--fs-sm); min-width: 0; }
+.meter { display: grid; grid-template-columns: 96px 1fr 40px; align-items: center; gap: var(--sp-2); font-size: var(--fs-xs); color: var(--text-2); }
+.meter b { text-align: right; color: var(--text-1); font-weight: 600; }

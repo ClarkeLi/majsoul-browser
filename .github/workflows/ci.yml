@@ -1,0 +1,42 @@
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request:
+
+jobs:
+  core:
+    strategy:
+      fail-fast: false
+      matrix: { os: [macos-14, windows-latest, ubuntu-22.04] }
+    runs-on: ${{ matrix.os }}
+    defaults: { run: { working-directory: core } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: dtolnay/rust-toolchain@stable
+      - run: uv sync --frozen               # 含从 vendor/mortal/libriichi 用 maturin 构建
+      - run: uv run --frozen pytest -q      # 依赖模型文件的用例会自动跳过
+
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix: { os: [macos-14, windows-latest, ubuntu-22.04] }
+    runs-on: ${{ matrix.os }}
+    defaults: { run: { working-directory: apps/desktop } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm, cache-dependency-path: apps/desktop/pnpm-lock.yaml }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+  readonly-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get install -y ripgrep
+      - run: ./scripts/verify-readonly.sh

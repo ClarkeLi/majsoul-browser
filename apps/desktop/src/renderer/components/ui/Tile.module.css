@@ -1,0 +1,16 @@
+.tile {
+  position: relative; display: inline-block; flex: none; border-radius: var(--r-tile);
+  transition: transform var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease), opacity var(--t-base) var(--ease);
+}
+.layer { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+.xl { width: 56px; height: 75px; }
+.md { width: 32px; height: 43px; }
+.sm { width: 22px; height: 29px; }
+.xs { width: 16px; height: 21px; }
+.normal { }
+.recommended { transform: translateY(-6px); box-shadow: 0 0 0 2px var(--gold), var(--glow-gold); }
+.candidate { transform: translateY(-3px); box-shadow: 0 0 0 1px var(--line-strong); }
+.dim { opacity: 0.35; }
+.tsumogiri { opacity: 0.6; }
+.called { opacity: 0.5; transform: rotate(90deg); }
+.riichi { transform: rotate(90deg); }

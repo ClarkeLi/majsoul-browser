@@ -1,0 +1,25 @@
+# 模型与本地数据（不进 Git）
+/AI/
+*.pth
+*.safetensors
+.data/
+MajsoulBrowserData/
+core/tests/fixtures/real/private-*.jsonl
+
+# 构建产物与缓存
+/dist/
+/build/
+/release/
+/.toolchain/
+/test/design-shots/
+__pycache__/
+*.pyc
+.venv/
+.venv-*/
+node_modules/
+out/
+target/
+*.so
+*.dylib
+*.pyd
+.DS_Store

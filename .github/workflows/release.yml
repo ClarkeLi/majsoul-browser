@@ -1,0 +1,61 @@
+# 打包四个平台的发布包。只在手动触发（Actions → release → Run workflow）时运行。
+# 默认只把安装包作为 Artifacts 上传，不发布；勾选 draft 时额外创建一个「草稿」Release（不公开，需要你在网页上手动发布）。
+name: release
+on:
+  workflow_dispatch:
+    inputs:
+      draft:
+        description: '同时创建草稿 Release（不会公开）'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-14, target: mac-arm64 }        # Apple Silicon
+          - { os: macos-15-intel, target: mac-x64 }    # Intel Mac
+          - { os: windows-latest, target: win }
+          - { os: ubuntu-22.04, target: linux }        # glibc 2.35，兼容较老的发行版
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm, cache-dependency-path: apps/desktop/pnpm-lock.yaml }
+      - name: 打包
+        shell: bash
+        run: scripts/package.sh ${{ matrix.target }}
+      - name: 包体积
+        shell: bash
+        run: du -sh release/* | tee release/size-${{ matrix.target }}.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: majsoul-browser-${{ matrix.target }}
+          path: |
+            release/*.zip
+            release/*.AppImage
+            release/*.tar.gz
+          if-no-files-found: error
+
+  draft:
+    if: ${{ inputs.draft }}
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: artifacts, merge-multiple: true }
+      - name: 创建草稿 Release
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: |
+          V=$(node -p "require('./apps/desktop/package.json').version")
+          gh release create "v$V" artifacts/* --draft --title "Majsoul-Browser v$V" --notes-file .github/release-notes.md

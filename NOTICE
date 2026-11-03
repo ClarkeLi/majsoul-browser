@@ -1,0 +1,14 @@
+雀魂浏览器 Majsoul-Browser — 第三方组件与署名
+
+本项目整体以 GPL-3.0-or-later 发布（见 LICENSE）。其中取自 Mortal 的部分保留 AGPL-3.0 条款。
+本项目与雀魂（Mahjong Soul）及其开发、运营方没有任何关系；“雀魂 / Mahjong Soul”为其权利人的商标。
+
+- Mortal（Equim-chan，AGPL-3.0）  https://github.com/Equim-chan/Mortal  @ 0cff2b52982be5b1163aa9a62fb01f03ce91e0d2
+  vendor/mortal/ 含 libriichi 源码；core/src/soul_core/inference/{model,engine}.py 取自 Mortal，runner.py 为本项目改写。
+- MajsoulMax（Avenshy，GPL-3.0）  https://github.com/Avenshy/MajsoulMax  @ bc2f434eebe2a8d19ea6bfcffd6f4f2f12634150
+  liqi 协议解码与 proto 数据，见 core/src/soul_core/protocol/。
+- MahjongCopilot（latorc，GPL-3.0）  https://github.com/latorc/MahjongCopilot  @ 31be3de972bbe4b1261360ff61b18f1bb84babbe
+  点击坐标表（game/automation.py 的 Positions），见 apps/desktop/src/shared/ui-map.ts。
+- riichi-mahjong-tiles（FluffyStuff，CC0）  https://github.com/FluffyStuff/riichi-mahjong-tiles
+  牌面 SVG，见 apps/desktop/resources/tiles/。
+- Inter、JetBrains Mono（SIL OFL 1.1）：界面字体，见 apps/desktop/resources/fonts/。

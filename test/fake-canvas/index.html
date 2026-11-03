@@ -1,0 +1,12 @@
+<!doctype html>
+<!-- 假 Canvas：充当“游戏画面”，只记录收到的鼠标事件，供点击单元/E2E 测试使用。 -->
+<meta charset="utf-8" />
+<style>html,body{margin:0;height:100%;background:#222}canvas{display:block;width:100vw;height:100vh}</style>
+<canvas id="c"></canvas>
+<script>
+  window.__events = []
+  const rec = (type) => (e) => window.__events.push({ type, x: e.clientX, y: e.clientY, button: e.button, focus: document.hasFocus() })
+  const c = document.getElementById('c')
+  for (const t of ['mousemove', 'mousedown', 'mouseup']) c.addEventListener(t, rec(t))
+  window.__reset = () => { window.__events.length = 0 }
+</script>

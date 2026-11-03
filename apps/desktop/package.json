@@ -1,0 +1,58 @@
+{
+  "name": "majsoul-browser",
+  "version": "0.1.0",
+  "private": true,
+  "description": "雀魂浏览器 Majsoul-Browser：内嵌雀魂网页版 + 本地 Mortal 推理的四人麻将助手",
+  "license": "GPL-3.0-or-later",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron-vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "design:shots": "pnpm build && electron scripts/design-shots.cjs",
+    "e2e:click": "node scripts/e2e-click.cjs",
+    "e2e:layout": "electron scripts/e2e-layout.cjs",
+    "design:hud": "pnpm build && electron scripts/hud-shots.cjs",
+    "e2e:hud": "node scripts/e2e-hud.cjs",
+    "icon": "electron scripts/make-icon.cjs",
+    "package:mac-arm64": "pnpm build && electron-builder --config electron-builder.config.cjs --mac --arm64",
+    "package:mac-x64": "pnpm build && electron-builder --config electron-builder.config.cjs --mac --x64",
+    "package:win": "pnpm build && electron-builder --config electron-builder.config.cjs --win --x64",
+    "package:linux": "pnpm build && electron-builder --config electron-builder.config.cjs --linux --x64"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "electron-winstaller",
+      "esbuild"
+    ]
+  },
+  "dependencies": {
+    "i18next": "^26.7.1",
+    "lucide-react": "^1.66.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-i18next": "^17.1.11",
+    "recharts": "^3.10.1",
+    "zustand": "^5.0.16"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "electron": "^45.2.1",
+    "electron-builder": "^26.18.0",
+    "electron-vite": "^6.0.0",
+    "rolldown": "^1.2.16",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.1.0"
+  },
+  "author": "Clarke Li",
+  "homepage": "https://github.com/ClarkeLi/majsoul-browser"
+}

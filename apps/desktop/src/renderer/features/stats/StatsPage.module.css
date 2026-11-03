@@ -1,0 +1,13 @@
+.page { display: flex; flex-direction: column; gap: var(--sp-3); }
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
+.tile { position: relative; padding: var(--sp-3) var(--sp-4); min-height: 88px; }
+.value { font-size: var(--fs-xl); line-height: var(--lh-xl); font-weight: 600; }
+.label { font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--text-2); margin-top: var(--sp-1); }
+.spark { position: absolute; right: var(--sp-3); bottom: var(--sp-3); width: 60px; height: 16px; }
+.title { margin: 0 0 var(--sp-2); font-size: var(--fs-sm); line-height: var(--lh-sm); font-weight: 500; color: var(--text-2); }
+.chart { margin-top: var(--sp-2); }
+.dist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
+.dist li { display: grid; grid-template-columns: 48px 1fr 52px; align-items: center; gap: var(--sp-3); font-size: var(--fs-sm); }
+.dist li > :last-child { text-align: right; color: var(--text-2); }
+.bar { height: 4px; border-radius: var(--r-pill); background: var(--bg-3); overflow: hidden; }
+.bar > span { display: block; height: 100%; background: var(--gold); }

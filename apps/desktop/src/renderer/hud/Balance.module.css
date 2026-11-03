@@ -1,0 +1,48 @@
+/* 下栏的押引红绿条面板（px 尺寸，跟栏高走）。扁平：中线左朱 = 放铳损失，右青竹 = 和牌收益（估算为斜纹）。 */
+.panel {
+  flex: 0 0 clamp(300px, 30%, 420px); min-width: 0; box-sizing: border-box;
+  display: grid; grid-template-columns: 76px minmax(0, 1fr); align-items: center; gap: 8px;
+  padding: 4px 8px 4px 9px; border-radius: 2px; overflow: hidden;
+  background: var(--wa-sumi-2); box-shadow: inset 0 2px 0 var(--wa-take);
+}
+.panel[data-stale] { opacity: 0.6; }
+.side { display: flex; flex-direction: column; gap: 1px; min-width: 0; align-self: stretch; justify-content: center; padding-right: 8px; border-right: 1px solid var(--wa-rule); }
+.title { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 800; letter-spacing: 0.1em; color: var(--wa-kinari); white-space: nowrap; }
+.ic { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 2px; font-style: normal; font-family: var(--font-wa); font-size: 11px; font-weight: 900; letter-spacing: 0; color: var(--wa-ink); background: var(--wa-take); }
+.sub { font-size: 9.5px; color: var(--wa-nezumi); white-space: nowrap; }
+.big { margin-top: 4px; display: flex; flex-direction: column; animation: pop 320ms cubic-bezier(0.3, 1.6, 0.5, 1) both; transform-origin: left center; }
+.big i { font-style: normal; font-size: 9.5px; color: var(--wa-nezumi); font-weight: 600; }
+.big b { font-size: 17px; line-height: 1.1; font-weight: 850; letter-spacing: 0.01em; }
+.big[data-sign='pos'] b { color: var(--wa-take); }
+.big[data-sign='neg'] b { color: var(--wa-shu); }
+.muted { color: var(--wa-nezumi); font-size: 11.5px; line-height: 1.45; }
+
+.rows { display: flex; flex-direction: column; gap: 2px; }
+.row {
+  display: grid; grid-template-columns: 66px minmax(0, 1fr) 52px; align-items: center; gap: 6px;
+  height: 16px; padding: 0 3px; border-radius: 1px; font-size: 10.5px; color: var(--wa-nezumi);
+  animation: rowIn 240ms var(--ease) both;
+}
+.row[data-focus] { background: color-mix(in srgb, var(--wa-take) 14%, transparent); box-shadow: inset 2px 0 0 var(--wa-take); color: var(--wa-kinari); font-weight: 650; }
+.who { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; overflow: hidden; }
+.who > span:first-child { flex: none; }
+.who .num { font-size: 10px; }
+.riichi { font-style: normal; font-size: 9.5px; font-weight: 800; color: var(--wa-kin); }
+
+.bar { display: grid; grid-template-columns: 1fr 2px 1fr; align-items: center; height: 100%; }
+.l, .r { position: relative; height: 7px; background: var(--wa-rule); }
+.l i, .r i { position: absolute; top: 0; bottom: 0; transition: width 400ms var(--ease); animation: grow 420ms var(--ease) both; }
+.l i { right: 0; transform-origin: right center; background: var(--wa-shu); }
+.r i { left: 0; transform-origin: left center; background: var(--wa-take); }
+.r i[data-est] { background: repeating-linear-gradient(-45deg, var(--wa-take) 0 3px, color-mix(in srgb, var(--wa-take) 40%, transparent) 3px 6px); }
+.mid { height: 13px; background: var(--wa-kinari); }
+
+.net { display: inline-flex; align-items: center; justify-content: flex-end; gap: 3px; font-size: 11px; font-weight: 750; white-space: nowrap; }
+.net[data-sign='pos'] { color: var(--wa-take); }
+.net[data-sign='neg'] { color: var(--wa-shu); }
+.best { font-style: normal; color: var(--wa-kin); font-weight: 900; }
+
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes rowIn { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
+@keyframes pop { 0% { transform: scale(1.4); opacity: 0; } 65% { transform: scale(0.96); opacity: 1; } 100% { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .panel * { animation: none !important; transition: none !important; } }

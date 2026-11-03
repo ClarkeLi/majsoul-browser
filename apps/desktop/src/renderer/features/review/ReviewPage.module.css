@@ -1,0 +1,15 @@
+.page { display: flex; flex-direction: column; gap: var(--sp-3); }
+.game { display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'n s' 'd s'; gap: 2px var(--sp-3); text-align: left; padding: var(--sp-3) var(--sp-4); border-radius: var(--r-md); background: var(--bg-2); border: 1px solid var(--line); }
+.game:hover { border-color: var(--line-strong); }
+.gname { grid-area: n; font-weight: 500; }
+.gstat { grid-area: s; align-self: center; color: var(--text-2); }
+.sub { color: var(--text-2); font-size: var(--fs-xs); line-height: var(--lh-xs); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); }
+.big { font-size: var(--fs-xl); line-height: var(--lh-xl); font-weight: 600; }
+.title { margin: 0 0 var(--sp-2); font-size: var(--fs-sm); line-height: var(--lh-sm); font-weight: 500; color: var(--text-2); }
+.list { list-style: none; margin: 0; padding: 0; max-height: 360px; overflow-y: auto; }
+.item { position: relative; display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: var(--sp-2); min-height: 36px; padding: 2px 0 2px var(--sp-2); }
+.differ::before { content: ''; position: absolute; left: 0; top: 4px; bottom: 4px; width: 2px; background: var(--amber); border-radius: 2px; }
+.tile { display: flex; justify-content: center; }
+.cols { display: flex; flex-direction: column; min-width: 0; }
+.loss { color: var(--amber); font-size: var(--fs-sm); white-space: nowrap; }

@@ -1,0 +1,2 @@
+.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
+.list li { padding: var(--sp-2) var(--sp-3); border-radius: var(--r-sm); background: color-mix(in srgb, var(--blue) 8%, transparent); border: 1px solid color-mix(in srgb, var(--blue) 22%, var(--line)); color: var(--text-1); line-height: 1.55; }

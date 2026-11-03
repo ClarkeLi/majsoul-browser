@@ -1,0 +1,21 @@
+/* 悬停手牌的小卡：墨底，顶边一条危险度色 */
+.tip {
+  position: absolute; box-sizing: border-box; pointer-events: none; z-index: 6;
+  display: flex; flex-direction: column; gap: 0.3em; padding: 0.45em 0.6em 0.5em;
+  border-radius: 2px; background: color-mix(in srgb, var(--wa-sumi) 96%, transparent); color: var(--wa-kinari);
+  border: 1px solid var(--wa-rule); border-top: calc(var(--u) * 0.04) solid var(--risk-0); box-shadow: 0 0 0 1px var(--wa-ink);
+  font-size: 0.82em; animation: up 120ms var(--ease);
+}
+.tip[data-tier='1'] { border-top-color: var(--risk-1); } .tip[data-tier='2'] { border-top-color: var(--risk-2); }
+.tip[data-tier='3'] { border-top-color: var(--risk-3); } .tip[data-tier='4'] { border-top-color: var(--wa-shu); }
+.head { display: flex; align-items: center; gap: 0.45em; padding-bottom: 0.3em; border-bottom: 1px solid var(--wa-rule); }
+.head b { font-weight: 700; }
+.tier { margin-left: auto; font-size: 0.88em; font-weight: 700; color: var(--risk-0); white-space: nowrap; }
+.tier[data-tier='1'] { color: var(--risk-1); } .tier[data-tier='2'] { color: var(--risk-2); } .tier[data-tier='3'] { color: var(--risk-3); } .tier[data-tier='4'] { color: var(--wa-shu); }
+.why { color: var(--wa-kinari); line-height: 1.45; }
+.why em { font-style: normal; color: var(--wa-nezumi); margin-left: 0.5em; }
+.eff { color: var(--wa-nezumi); }
+.ai { display: flex; align-items: center; gap: 0.5em; color: var(--wa-nezumi); }
+.pb { flex: 1; height: 0.3em; background: var(--wa-rule); overflow: hidden; }
+.pb i { display: block; height: 100%; background: var(--wa-kin); }
+@keyframes up { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }

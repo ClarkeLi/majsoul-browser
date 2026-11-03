@@ -1,0 +1,8 @@
+.side { position: relative; display: flex; flex-direction: column; min-width: 0; background: var(--bg-1); border-left: 1px solid var(--line); }
+.tabrow { position: relative; flex: none; }
+.collapse { position: absolute; right: var(--sp-2); top: 6px; }
+.scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: var(--sp-3) var(--sp-4) var(--sp-4); }
+.rail { display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); padding: var(--sp-3) 0; background: var(--bg-1); border-left: 1px solid var(--line); }
+.railTile { height: 40px; display: flex; align-items: center; }
+.railMode { font-size: var(--fs-xs); color: var(--text-2); }
+.matchBody { flex: 1; min-height: 0; overflow: hidden; }

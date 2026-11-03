@@ -1,0 +1,47 @@
+/*
+ * 信息层：透明、点击穿透。所有尺寸用 var(--u)（= 画面宽度 / 16）换算，随窗口等比缩放。
+ * 风格「和・卓上」：扁平、实色块、细分隔线；不发光、不渐变、不斜切。颜色见 tokens.css 的 --wa-*。
+ */
+.root {
+  position: fixed; inset: 0; overflow: hidden; pointer-events: none;
+  font-size: max(11px, calc(var(--u) * 0.19)); line-height: 1.35; color: var(--wa-kinari); font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+/* 浅色主题：卡片变成和纸底、墨字；强调色加深一档保证在纸上可读 */
+:global([data-theme='light']) .root {
+  --wa-sumi: #f6f1e4; --wa-sumi-2: #ebe4d3; --wa-kinari: #1d1b17; --wa-nezumi: #6b665b; --wa-rule: rgba(29, 27, 23, 0.14);
+  --wa-shu: #c93a22; --wa-kin: #b9810f; --wa-take: #23865a; --wa-ai: #2f6aa8; --wa-beni: #c42a4c;
+}
+
+.zoneL, .zoneR { position: absolute; display: flex; flex-direction: column; align-items: flex-start; gap: calc(var(--u) * 0.1); }
+.zoneL { transform-origin: left bottom; justify-content: flex-end; }
+.zoneR { transform-origin: right top; align-items: stretch; }
+
+/* 教学条：牌桌下沿与按钮之间的一条（短冊：左边一块藍色「学」） */
+.strip {
+  position: absolute; transform-origin: left top; display: flex; align-items: stretch; gap: 0;
+  border-radius: calc(var(--u) * 0.04); overflow: hidden;
+  background: color-mix(in srgb, var(--wa-sumi) 94%, transparent); border: 1px solid var(--wa-rule);
+}
+.strip[data-stale] { opacity: 0.6; }
+.sic { flex: none; display: grid; place-items: center; padding: 0 calc(var(--u) * 0.1); background: var(--wa-ai); color: var(--wa-paper); font-family: var(--font-wa); font-size: 0.86em; font-weight: 900; }
+.stext { flex: 1; min-width: 0; padding: calc(var(--u) * 0.06) calc(var(--u) * 0.14); font-size: 0.92em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; animation: tipIn 200ms var(--ease); }
+.strip[data-oneline] .stext { -webkit-line-clamp: 1; }
+.sdots { flex: none; display: inline-flex; gap: 3px; align-self: center; padding-right: calc(var(--u) * 0.1); }
+.sdots i { width: calc(var(--u) * 0.1); height: 2px; background: var(--wa-rule); }
+.sdots i[data-on] { background: var(--wa-ai); }
+
+/* 手牌上方的危险度条：五档实色，扁平；最危险一档缓慢明灭 */
+.bars i { position: absolute; border-radius: 1px; background: var(--risk-0); box-shadow: 0 0 0 1px var(--wa-ink); transition: transform 120ms var(--ease); }
+.bars i[data-tier='1'] { background: var(--risk-1); } .bars i[data-tier='2'] { background: var(--risk-2); } .bars i[data-tier='3'] { background: var(--risk-3); }
+.bars i[data-tier='4'] { background: var(--wa-shu); animation: danger 900ms steps(2, jump-none) infinite alternate; }
+.bars i[data-hover] { transform: scaleY(1.8); box-shadow: 0 0 0 1px var(--wa-kinari); }
+@keyframes danger { from { opacity: 0.6; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .bars i { animation: none !important; } }
+
+@keyframes tipIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+
+.game { position: absolute; }
+
+/* 事件横幅的锚点：宽度为 0，横幅自己居中 */
+.callZone { position: absolute; width: 0; height: 0; z-index: 6; }
